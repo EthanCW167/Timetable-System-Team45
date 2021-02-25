@@ -1,17 +1,28 @@
 package csc1035.project2.booking;
 
+import javax.persistence.*;
+
 /**
  * A class for abstract Room objects
  *
  * @author Dillon Reed
  */
+@Entity(name = "rooms")
 public class Room {
-    private double roomNumber;
+    @Id
+    @Column(name = "roomNumber")
+    private String roomNumber;
+
+    @Column(name = "type")
     private String type;
+
+    @Column(name = "maxCapacity")
     private int maxCapacity;
+
+    @Column(name = "socialDistancingCapacity")
     private int socialDistancingCapacity;
 
-    public Room(double roomNumber, String type, int maxCapacity, int socialDistancingCapacity) {
+    public Room(String roomNumber, String type, int maxCapacity, int socialDistancingCapacity) {
         this.roomNumber = roomNumber;
         this.type = type;
         this.maxCapacity = maxCapacity;
@@ -20,11 +31,11 @@ public class Room {
 
     public Room() {}
 
-    public double getRoomNumber() {
+    public String getRoomNumber() {
         return roomNumber;
     }
 
-    public void setRoomNumber(double roomNumber) {
+    public void setRoomNumber(String roomNumber) {
         this.roomNumber = roomNumber;
     }
 
