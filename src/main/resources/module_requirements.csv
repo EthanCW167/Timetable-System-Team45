@@ -1,4 +1,4 @@
-id,week_commencing,no_of_lectures_per_week,lecture_length,no_of_practicals_per_week,practical_length
+id,weekCommencing,lecturesPerWeek,lectureLength,practicalsPerWeek,practicalLength
 RSI3393,27/09/21,1,2,1,2
 BBU5808,27/09/21,1,2,2,2
 SAM0176,27/09/21,3,1,4,1

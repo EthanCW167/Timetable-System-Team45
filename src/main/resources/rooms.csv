@@ -1,4 +1,4 @@
-room_number,type,max_capacity,social_distancing_capacity
+roomNumber,type,maxCapacity,socialDistancingCapacity
 0.379,PC Cluster,157,36
 0.365,PC Cluster,59,9
 1.846,Lecture Lecture,274,50
