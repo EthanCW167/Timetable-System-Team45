@@ -5,7 +5,16 @@ import org.hibernate.Session;
 
 import java.util.List;
 
+/**
+ * This is a class to test that the Room class relates properly to the "rooms" table in the database
+ *
+ * @author Dillon Reed
+ */
 public class TestingRoomClass {
+
+    /**
+     * Tests that records can be read correctly from the "rooms" table. Prints the records out to the console
+     */
     private static void testReadRooms(){
         Session session = HibernateUtil.getSessionFactory().openSession();
         // Read
