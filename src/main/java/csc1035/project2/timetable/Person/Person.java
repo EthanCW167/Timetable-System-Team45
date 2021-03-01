@@ -10,7 +10,7 @@ import javax.persistence.*;
  *
  */
 
-@Entity(name = "Person")
+@Entity(name = "students")
 public class Person {
 
     @Id
