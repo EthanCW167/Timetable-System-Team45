@@ -1,6 +1,6 @@
 package csc1035.project2.timetable.Person;
 
-import javax.persistence.Entity;
+import javax.persistence.*;
 
 /**
  * This is a class for representing a Student. This class inherits the fields and methods
@@ -18,7 +18,7 @@ public class Student extends Person{
      * @param firstName First name of the student
      * @param lastName Last name of the student
      */
-    public Student(int id, String firstName, String lastName){
+    public Student(String id, String firstName, String lastName){
 
         super(id,firstName,lastName);
     }

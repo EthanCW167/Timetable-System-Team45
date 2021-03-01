@@ -10,12 +10,12 @@ import javax.persistence.*;
  *
  */
 
-@Entity(name = "students")
+@MappedSuperclass
 public class Person {
 
     @Id
     @Column(name = "id")
-    int id;
+    String id;
 
     @Column(name = "firstName")
     String firstName;
@@ -30,7 +30,7 @@ public class Person {
      * @param lastName The last name of the person
      */
 
-    public Person(int id, String firstName, String lastName){
+    public Person(String id, String firstName, String lastName){
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -39,11 +39,11 @@ public class Person {
 
     }
 
-    public int getID(){
+    public String getID(){
         return id;
     }
 
-    public void setID(int id){
+    public void setID(String id){
         this.id = id;
     }
 

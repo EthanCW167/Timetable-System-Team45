@@ -1,6 +1,6 @@
 package csc1035.project2.timetable.Person;
 
-import javax.persistence.Entity;
+import javax.persistence.*;
 
 /**
  *
@@ -19,7 +19,7 @@ public class Staff extends Person{
      * @param lastName This is the last name of the staff member
      */
 
-    public Staff(int id, String firstName, String lastName){
+    public Staff(String id, String firstName, String lastName){
         super(id,firstName,lastName);
     }
     public Staff(){}
