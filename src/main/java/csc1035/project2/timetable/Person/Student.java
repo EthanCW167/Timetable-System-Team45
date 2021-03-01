@@ -1,5 +1,7 @@
 package csc1035.project2.timetable.Person;
 
+import javax.persistence.Entity;
+
 /**
  * This is a class for representing a Student. This class inherits the fields and methods
  * found in the person class
@@ -7,7 +9,7 @@ package csc1035.project2.timetable.Person;
  * @author Ethan Wilson
  *
  */
-
+@Entity(name = "students")
 public class Student extends Person{
 
     /**
@@ -20,6 +22,8 @@ public class Student extends Person{
 
         super(id,firstName,lastName);
     }
+    public Student(){}
+
     public void returnStudentData(){
 
     }

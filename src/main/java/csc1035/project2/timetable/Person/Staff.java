@@ -1,5 +1,7 @@
 package csc1035.project2.timetable.Person;
 
+import javax.persistence.Entity;
+
 /**
  *
  * This class is for representing a staff object. This object class inherits its fields and methods
@@ -7,7 +9,7 @@ package csc1035.project2.timetable.Person;
  *
  * @author Ethan Wilson
  */
-
+@Entity(name = "staff")
 public class Staff extends Person{
 
     /**
@@ -20,6 +22,7 @@ public class Staff extends Person{
     public Staff(int id, String firstName, String lastName){
         super(id,firstName,lastName);
     }
+    public Staff(){}
 
     public void returnStaffData(){
 

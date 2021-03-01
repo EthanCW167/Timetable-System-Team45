@@ -1,5 +1,6 @@
 package csc1035.project2.timetable.Person;
 
+import javax.persistence.*;
 /**
  *
  * This is a class for representing a person object. This has methods that allow for
@@ -9,10 +10,17 @@ package csc1035.project2.timetable.Person;
  *
  */
 
+@Entity(name = "Person")
 public class Person {
 
+    @Id
+    @Column(name = "id")
     int id;
+
+    @Column(name = "firstName")
     String firstName;
+
+    @Column(name = "lastName")
     String lastName;
 
     /**
@@ -26,6 +34,9 @@ public class Person {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
+    }
+    public Person(){
+
     }
 
     public int getID(){
