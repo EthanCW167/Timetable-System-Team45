@@ -24,7 +24,8 @@ public class Student extends Person{
     }
     public Student(){}
 
-    public void returnStudentData(){
+    @Override
+    public void assignRoom(){
 
     }
 }

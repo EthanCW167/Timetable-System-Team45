@@ -24,8 +24,10 @@ public class Staff extends Person{
     }
     public Staff(){}
 
-    public void returnStaffData(){
+    public void returnStaffData(){}
+
+    @Override
+    public void assignRoom(){
 
     }
-
 }

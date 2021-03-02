@@ -63,6 +63,10 @@ public class Person {
         this.lastName = lastName;
     }
 
+    public void assignRoom(){
+
+    }
+
     /**
      * This returns a readable version of the person object
      * @return String representation of person
