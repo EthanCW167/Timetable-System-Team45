@@ -15,13 +15,13 @@ public class Person {
 
     @Id
     @Column(name = "id")
-    String id;
+    private String id;
 
     @Column(name = "firstName")
-    String firstName;
+    private String firstName;
 
     @Column(name = "lastName")
-    String lastName;
+    private String lastName;
 
     /**
      *
