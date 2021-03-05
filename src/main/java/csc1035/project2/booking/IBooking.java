@@ -21,5 +21,5 @@ public interface IBooking {
     // Creates a list of reservations for given room
     ArrayList<Reservations> createRoomTimetable(Room r); // One week is good
     // Update room info
-    boolean updateRoomInfo(Room oldRoom, Room newRoom);
+    boolean updateRoomInfo(String roomNumber, Room newRoom);
 }
