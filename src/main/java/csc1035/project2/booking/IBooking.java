@@ -1,5 +1,7 @@
 package csc1035.project2.booking;
 
+import csc1035.project2.booking.reservation.Reservation;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 

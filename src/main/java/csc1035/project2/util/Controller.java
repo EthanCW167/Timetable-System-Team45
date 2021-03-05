@@ -39,7 +39,7 @@ public class Controller<E> implements IController<E> {
     }
 
     @Override
-    public List<E> getAll(Class<E> c) {
+    public List<E> getAll(Class c) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
         List<E> entries = null;

@@ -7,6 +7,8 @@
     <session-factory>
         <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
         <property name="hibernate.connection.url">jdbc:mysql://cs-db.ncl.ac.uk/t1035t45</property>
+<!--        <property name="hibernate.connection.url">jdbc:mysql://localhost:51417/t1035t45</property>-->
+
         <property name="hibernate.connection.username">t1035t45</property>
         <property name="hibernate.connection.password">Quo5=TonLazy</property>
         <property name="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</property>
@@ -19,6 +21,6 @@
         <mapping class="csc1035.project2.timetable.Person.Staff" />
         <mapping class="csc1035.project2.timetable.Module" />
         <mapping class="csc1035.project2.booking.Room" />
-
+        <mapping class="csc1035.project2.booking.reservation.Reservation" />
     </session-factory>
 </hibernate-configuration>
