@@ -1,6 +1,6 @@
 package csc1035.project2.booking;
 
-import csc1035.project2.booking.reservation.Reservation;
+import csc1035.project2.booking.reservation.Reservations;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -19,7 +19,7 @@ public interface IBooking {
     // Finds all available rooms with capacity starting with a timeStamp ending after length in minutes
     ArrayList<Room> findAvailableRooms(LocalDateTime timeStamp, int forLength, int forCapacity);
     // Creates a list of reservations for given room
-    ArrayList<Reservation> createRoomTimetable(Room r); // One week is good
+    ArrayList<Reservations> createRoomTimetable(Room r); // One week is good
     // Update room info
     boolean updateRoomInfo(Room oldRoom, Room newRoom);
 }

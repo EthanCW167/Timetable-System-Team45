@@ -1,71 +1,128 @@
 package csc1035.project2.util;
 
 import csc1035.project2.HibernateUtil;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 
 import java.util.List;
 
-/**
- * Controller class providing a way to communicate with the Database
- *
- * @author Titas Janusonis
- */
 public class Controller<E> implements IController<E> {
 
+    private Session session = null;
+
     @Override
-    public void save(Object o) {
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        session.beginTransaction();
-        session.saveOrUpdate(o);
-        session.getTransaction().commit();
+    public void create(E e) {
+
+        try {
+            session = HibernateUtil.getSessionFactory().openSession();
+            session.beginTransaction();
+            session.persist(e);
+            session.getTransaction().commit();
+        } catch (HibernateException ex) {
+            if (session!=null) session.getTransaction().rollback();
+            ex.printStackTrace();
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
     }
 
     @Override
-    public void update(Object s) {
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        session.beginTransaction();
-        session.saveOrUpdate(s);
-        session.getTransaction().commit();
+    public void update(E e) {
 
+        try {
+            session = HibernateUtil.getSessionFactory().openSession();
+            session.beginTransaction();
+            session.saveOrUpdate(e);
+            session.getTransaction().commit();
+        } catch (HibernateException ex) {
+            if (session!=null) session.getTransaction().rollback();
+            ex.printStackTrace();
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
     }
 
     @Override
-    public Object getById(Class c, int id) {
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        session.beginTransaction();
-        Object result = c.cast(session.get(c, id));
-        session.getTransaction().commit();
-        return result;
+    public E readById(Class c, int id) {
+        Object entry = null;
+        try {
+            session = HibernateUtil.getSessionFactory().openSession();
+            session.beginTransaction();
+            entry = c.cast(session.get(c, id));
+            session.getTransaction().commit();
+        } catch (HibernateException ex) {
+            if (session!=null) session.getTransaction().rollback();
+            ex.printStackTrace();
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+        return (E) entry;
     }
 
     @Override
-    public List<E> getAll(Class c) {
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        session.beginTransaction();
+    public List<E> readAll(String name) {
+
         List<E> entries = null;
-        entries = session.createQuery("from "+c.getClass().getSimpleName()).list();
-        session.getTransaction().commit();
+        try {
+            session = HibernateUtil.getSessionFactory().openSession();
+            session.beginTransaction();
+            entries = session.createQuery("FROM "+ name).list();
+            session.getTransaction().commit();
+        } catch (HibernateException ex) {
+            if (session!=null) session.getTransaction().rollback();
+            ex.printStackTrace();
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+
         return entries;
     }
 
-
     @Override
     public void delete(Class c, int id) {
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        session.beginTransaction();
-        Object entry = c.cast(session.get(c, id));
-        session.delete(entry);
-        session.getTransaction().commit();
+
+
+        try {
+            session = HibernateUtil.getSessionFactory().openSession();
+            session.beginTransaction();
+            Object entry = c.cast(session.get(c, id));
+            session.delete(entry);
+            session.getTransaction().commit();
+        } catch (HibernateException ex) {
+            if (session!=null) session.getTransaction().rollback();
+            ex.printStackTrace();
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
     }
 
     @Override
-    public void bulkListSave(List e) {
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        session.beginTransaction();
+    public void bulkListRead(List list) {
 
-        for(Object i: e){
-            session.persist(i);
+        try {
+            session = HibernateUtil.getSessionFactory().openSession();
+            session.beginTransaction();
+            for (Object e : list) {
+                session.persist(e);
+            }
+            session.getTransaction().commit();
+        } catch (HibernateException ex) {
+            if (session!=null) session.getTransaction().rollback();
+            ex.printStackTrace();
+        } finally {
+            if (session != null) {
+                session.close();
+            }
         }
-        session.getTransaction().commit();
     }
 }

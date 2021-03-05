@@ -2,22 +2,17 @@ package csc1035.project2.util;
 
 import java.util.List;
 
-/**
- * Controller interface
- *
- * @author Titas Janusonis
- */
-public interface IController<E> {
-    void save(E e); // Create
+public  interface IController<E>  {
+    void create(E e);
 
-    void update(E s); // Update
+    void update(E s);
 
-    E getById(Class<E> c, int id); // Read
+    E readById(Class<E> c, int id);
 
-    List<E> getAll(Class<E> c); // Supporting method for retrieving all entries in a database table
+    List<E> readAll(String name);
 
-    void delete(Class<E> c,int id); // Delete
+    void delete(Class<E> c, int id);
 
-    void bulkListSave(List<E> e); // Bulk save a list collection of entries
-
+    void bulkListRead(List<E> e);
 }
+

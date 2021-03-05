@@ -21,6 +21,6 @@
         <mapping class="csc1035.project2.timetable.Person.Staff" />
         <mapping class="csc1035.project2.timetable.Module" />
         <mapping class="csc1035.project2.booking.Room" />
-        <mapping class="csc1035.project2.booking.reservation.Reservation" />
+        <mapping class="csc1035.project2.booking.reservation.Reservations" />
     </session-factory>
 </hibernate-configuration>

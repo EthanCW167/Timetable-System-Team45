@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
  */
 @Entity(name = "reservations")
 @IdClass(ReservationID.class)
-public class Reservation {
+public class Reservations {
     @Id
     @Column(name = "roomNumber")
     private String roomNumber;
@@ -27,10 +27,10 @@ public class Reservation {
     @Column(name = "to")
     private LocalDateTime to;
 
-    public Reservation() {
+    public Reservations() {
     }
 
-    public Reservation(String roomNumber, String moduleId, LocalDateTime from, LocalDateTime to) {
+    public Reservations(String roomNumber, String moduleId, LocalDateTime from, LocalDateTime to) {
         this.roomNumber = roomNumber;
         this.moduleId = moduleId;
         this.from = from;
