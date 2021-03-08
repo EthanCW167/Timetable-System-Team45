@@ -2,7 +2,7 @@ package csc1035.project2.timetable;
 
 import javax.persistence.*;
 
-@Entity(name = "modules.csv")
+@Entity(name = "modules")
 public class Module {
 
     @Id
