@@ -20,7 +20,7 @@ public class BookingHandler {
         
         while (!exit){
             printMenu();
-            int option = Helpers.getInput(1, 3);
+            int option = Helpers.getInput(1, 7);
 
             optionManager(option);
             System.out.println("-----------------");

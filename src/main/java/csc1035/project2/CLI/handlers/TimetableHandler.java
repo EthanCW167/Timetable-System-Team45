@@ -20,7 +20,7 @@ public class TimetableHandler {
 
         while (!exit){
             printMenu();
-            int option = Helpers.getInput(1, 3);
+            int option = Helpers.getInput(1, 5);
 
             optionManager(option);
             System.out.println("-----------------");
