@@ -2,8 +2,6 @@ package csc1035.project2.CLI.handlers;
 
 import csc1035.project2.util.Helpers;
 
-import java.util.Scanner;
-
 /**
  * Class used for handling booking actions
  * with CLI
@@ -42,7 +40,7 @@ public class BookingHandler {
                 reservationHandler();
                 break;
             case 3:
-                cancelationHandler();
+                cancellationHandler();
                 break;
             case 4:
                 findRoomsHandler();
@@ -69,14 +67,14 @@ public class BookingHandler {
         // Booking.reserveRoom()
     }
 
-    private static void cancelationHandler() {
+    private static void cancellationHandler() {
         // Lets to cancel a room
         // Booking.cancelRoom()
     }
 
     private static void findRoomsHandler() {
         // Prints all rooms available
-        // Booking.findAvailablleRooms()
+        // Booking.findAvailableRooms()
     }
 
     private static void roomTimetableHandler() {
