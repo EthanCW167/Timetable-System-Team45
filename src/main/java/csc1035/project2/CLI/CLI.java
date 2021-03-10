@@ -1,6 +1,7 @@
 package csc1035.project2.CLI;
 
-import java.util.Scanner;
+import csc1035.project2.CLI.handlers.*;
+import csc1035.project2.util.Helpers;
 
 /**
  * Command line interface for the app
@@ -8,10 +9,8 @@ import java.util.Scanner;
  */
 public class CLI {
     static boolean exit;
-    static Scanner scan;
 
     public CLI(){
-        scan =  new Scanner(System.in);
         exit = false;
 
     }
@@ -28,7 +27,7 @@ public class CLI {
 
         while (!exit){
             printMenu();
-            int option = getInput(1, 3);
+            int option = Helpers.getInput(1, 3);
 
             optionManager(option);
             System.out.println("-----------------");
@@ -42,10 +41,12 @@ public class CLI {
     public static void optionManager(int option){
         switch (option){
             case 1:
-                bookingHandler();
+                BookingHandler BH = new BookingHandler();
+                BH.run();
                 break;
             case 2:
-                timetablingHandler();
+                TimetableHandler TH = new TimetableHandler();
+                TH.run();
                 break;
             case 3:
                 exitHandler();
@@ -53,13 +54,6 @@ public class CLI {
         }
     }
 
-    private static void bookingHandler() {
-
-    }
-
-    private static void timetablingHandler() {
-
-    }
 
     /**
      * Exits the IO loop
@@ -76,33 +70,5 @@ public class CLI {
         System.out.println("3 --- Exit");
     }
 
-    /**
-     * Handles input of integers
-     * @param rangeLower lower range for the input
-     * @param rangeUpper upper range for the input
-     * @return provided number between rangeLower and rangeUpper
-     */
-    public static int getInput(int rangeLower, int rangeUpper) {
-        int input;
-        while (true) {
-
-            if(scan.hasNextInt()){
-                input = scan.nextInt();
-                if (input < rangeLower || input > rangeUpper) {
-                    System.out.println("Enter a number from " +
-                            rangeLower + " to " + rangeUpper);
-                    scan.nextLine();
-                }else {
-                    break;
-                }
-
-            }else{
-                System.out.println("Enter a number from " +
-                        rangeLower + " to " + rangeUpper);
-                scan.nextLine();
-            }
-        }
-        return input;
-    }
 
 }
