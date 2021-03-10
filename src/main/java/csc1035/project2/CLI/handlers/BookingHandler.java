@@ -60,21 +60,33 @@ public class BookingHandler {
     }
 
     private static void roomListHandler() {
+        // Prints a list of all rooms from Booking class
+        // Booking.rooms
     }
 
     private static void reservationHandler() {
+        // Lets to reserve a room
+        // Booking.reserveRoom()
     }
 
     private static void cancelationHandler() {
+        // Lets to cancel a room
+        // Booking.cancelRoom()
     }
 
     private static void findRoomsHandler() {
+        // Prints all rooms available
+        // Booking.findAvailablleRooms()
     }
 
     private static void roomTimetableHandler() {
+        // Prints timetable of a room
+        // Booking.createRoomTimetable()
     }
 
     private static void updateRoomHandler() {
+        // Lets to update a room
+        // Booking.updateRoomInfo()
     }
 
     /**
