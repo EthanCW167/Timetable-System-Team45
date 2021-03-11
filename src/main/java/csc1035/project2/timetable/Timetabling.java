@@ -1,9 +1,10 @@
 package csc1035.project2.timetable;
 
+
+
 import java.util.List;
 import csc1035.project2.HibernateUtil;
 import org.hibernate.Session;
-
 
 public class Timetabling {
 
@@ -19,8 +20,10 @@ public class Timetabling {
 
         return students;
 
+    }
 
-
+    public static List teacherModule(String moduleId){
+       return null;
     }
 
 }
