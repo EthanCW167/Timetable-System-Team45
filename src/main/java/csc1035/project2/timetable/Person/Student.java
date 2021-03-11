@@ -1,6 +1,10 @@
 package csc1035.project2.timetable.Person;
 
+import csc1035.project2.timetable.Module;
+
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * This is a class for representing a Student. This class inherits the fields and methods
@@ -12,6 +16,13 @@ import javax.persistence.*;
 @Entity(name = "students")
 public class Student extends Person{
 
+    @ManyToMany() // Establish many to many relationship with modules table
+    @JoinTable( //
+            name = "takes",
+            joinColumns = @JoinColumn(name = "studentId"),
+            inverseJoinColumns = @JoinColumn(name = "moduleId")
+    )
+    Set<Module> takes;
     /**
      *
      * @param id This is a unique id given to a student
@@ -24,8 +35,4 @@ public class Student extends Person{
     }
     public Student(){}
 
-    @Override
-    public void assignRoom(){
-
-    }
 }

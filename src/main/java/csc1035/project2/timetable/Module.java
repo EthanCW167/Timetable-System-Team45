@@ -1,6 +1,9 @@
 package csc1035.project2.timetable;
 
+import csc1035.project2.timetable.Person.Student;
+
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity(name = "modules")
 public class Module {
@@ -17,6 +20,9 @@ public class Module {
 
     @Column
     private int weeks;
+
+    @ManyToMany(mappedBy = "takes")
+    Set<Student> takenByStudent;
 
     public Module(String name, int credits, int weeks) {
         this.name = name;
