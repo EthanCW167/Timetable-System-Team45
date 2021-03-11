@@ -1,6 +1,9 @@
 package csc1035.project2.timetable.Person;
 
+import csc1035.project2.timetable.Module;
+
 import javax.persistence.*;
+import java.util.Set;
 
 /**
  *
@@ -12,6 +15,14 @@ import javax.persistence.*;
 @Entity(name = "staff")
 public class Staff extends Person{
 
+    @ManyToMany() // Establish many to many relationship with modules table
+    @JoinTable( //
+            name = "teaches",
+            joinColumns = @JoinColumn(name = "staffId"),
+            inverseJoinColumns = @JoinColumn(name = "moduleId")
+    )
+    Set<Module> teaches;
+
     /**
      *
      * @param id This is a unique id given to the staff member
@@ -22,12 +33,7 @@ public class Staff extends Person{
     public Staff(String id, String firstName, String lastName){
         super(id,firstName,lastName);
     }
+
     public Staff(){}
 
-    public void returnStaffData(){}
-
-    @Override
-    public void assignRoom(){
-
-    }
 }
