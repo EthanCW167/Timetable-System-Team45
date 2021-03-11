@@ -74,10 +74,9 @@ public class Person {
 
     @Override
     public String toString() {
-        return "Person{" +
-                "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                '}';
+        return "----------------------" + '\n' +
+                "ID: " + id + '\n' +
+                "First Name: " + firstName + '\n' +
+                "Last Name: " + lastName + '\n';
     }
 }
