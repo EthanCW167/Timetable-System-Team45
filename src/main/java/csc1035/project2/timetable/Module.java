@@ -1,9 +1,18 @@
 package csc1035.project2.timetable;
 
+import csc1035.project2.timetable.Person.Staff;
 import csc1035.project2.timetable.Person.Student;
 
 import javax.persistence.*;
 import java.util.Set;
+
+/**
+ *
+ * This class is for representing a module, it maps to the database table module, it has methods
+ * that allow for the setting and returning of its relevant fields
+ * @author Ethan Wilson
+ * @author Joseph Farnsworth
+ */
 
 @Entity(name = "modules")
 public class Module {
@@ -23,6 +32,9 @@ public class Module {
 
     @ManyToMany(mappedBy = "takes")
     Set<Student> takenByStudent;
+
+    @ManyToMany(mappedBy = "teaches")
+    Set<Staff> taughtBy;
 
     public Module(String name, int credits, int weeks) {
         this.name = name;

@@ -4,6 +4,13 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
+/**
+ *
+ * This is a class that represents the Module Requirements database table, it has methods for
+ * the setting and returning of fields relating to the requirements of the module
+ *
+ * @author Ethan Wilson
+ */
 @Entity(name = "moduleRequirements")
 public class ModuleRequirements {
 
@@ -28,6 +35,15 @@ public class ModuleRequirements {
 
     public ModuleRequirements(){ }
 
+    /**
+     *
+     * @param id This is the unique id given to a module
+     * @param weekCommencing This is the week in which the module begins
+     * @param lecturesPerWeek This is the number of lectures per week
+     * @param lectureLength This the length of the lectures
+     * @param practicalsPerWeek This is the number of practicals per week
+     * @param practicalLength This si the length of the practicals
+     */
     public ModuleRequirements(String id, String weekCommencing, int lecturesPerWeek, int lectureLength, int practicalsPerWeek, int practicalLength){
         this.id = id;
         this.weekCommencing = weekCommencing;
@@ -85,6 +101,10 @@ public class ModuleRequirements {
         this.practicalLength = practicalLength;
     }
 
+    /**
+     * This returns a readable version of the module requirements object
+     * @return String representation of module requirements
+     */
     @Override
     public String toString() {
         return "-------------------------------" + '\n' +
