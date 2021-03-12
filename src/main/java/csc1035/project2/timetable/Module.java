@@ -30,10 +30,10 @@ public class Module {
     @Column
     private int weeks;
 
-    @ManyToMany(mappedBy = "takes")
+    @ManyToMany(mappedBy = "takes") // establish Many to Many relationship with Student class
     Set<Student> takenByStudent;
 
-    @ManyToMany(mappedBy = "teaches")
+    @ManyToMany(mappedBy = "teaches") // establish Many to Many relationship with Staff class
     Set<Staff> taughtBy;
 
     public Module(String name, int credits, int weeks) {

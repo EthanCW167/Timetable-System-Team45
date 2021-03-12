@@ -23,6 +23,8 @@ public class TestingPersonClass {
 
         List students = session.createQuery("from students ").list();
 
+        System.out.println(students);
+
         for (Student student : (Iterable<Student>) students) {
             System.out.println("---------------------------------------------------------");
             System.out.println("ID : " + student.getID());
