@@ -47,7 +47,7 @@ public class Controller<E> implements IController<E> {
     }
 
     @Override
-    public E readById(Class c, int id) {
+    public E readById(Class c, String id) {
         Object entry = null;
         try {
             session = HibernateUtil.getSessionFactory().openSession();

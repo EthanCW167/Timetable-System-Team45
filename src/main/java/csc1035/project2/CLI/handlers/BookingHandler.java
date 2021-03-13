@@ -1,6 +1,15 @@
 package csc1035.project2.CLI.handlers;
 
+import csc1035.project2.HibernateUtil;
+import csc1035.project2.booking.Room;
+import csc1035.project2.booking.RoomBooking;
+import csc1035.project2.timetable.Module;
+import csc1035.project2.util.Controller;
 import csc1035.project2.util.Helpers;
+import csc1035.project2.util.IController;
+import org.hibernate.Session;
+
+import java.util.List;
 
 /**
  * Class used for handling booking actions
@@ -11,8 +20,12 @@ import csc1035.project2.util.Helpers;
 public class BookingHandler {
 
     private static boolean exit;
+    private static IController c;
+    private static RoomBooking booking;
     
     public BookingHandler(){
+        c = new Controller();
+        booking = new RoomBooking(c.readAll( "rooms"));
         exit = false;
     }
     public void run(){
@@ -57,14 +70,41 @@ public class BookingHandler {
         }
     }
 
+    /**
+     * Prints all the rooms in the university
+     */
     private static void roomListHandler() {
-        // Prints a list of all rooms from Booking class
-        // Booking.rooms
+
+        List<Room> rooms =  booking.getRoomList();
+
+        for (Room room : rooms) {
+            System.out.println("---------------------------------------------------------");
+            System.out.println("Room Number : " + room.getRoomNumber());
+            System.out.println("Type : " + room.getType());
+            System.out.println("Max Capacity : " + room.getMaxCapacity());
+            System.out.println("Social Distancing Capacity : " + room.getSocialDistancingCapacity());
+        }
     }
 
     private static void reservationHandler() {
-        // Lets to reserve a room
-        // Booking.reserveRoom()
+
+        System.out.println("Write the room number:");
+        Room room = Helpers.getRoomInput(booking.getRoomList());
+
+        System.out.println("Write the module number:");
+        Module module = Helpers.getModuleInput(c.readAll("modules"));
+
+        System.out.println("Write the start time:");
+
+        System.out.println("Write the end time:");
+
+//        if (booking.reserveRoom()){
+//            System.out.println("Room reserved");
+//        }
+//        else {
+//            System.out.println("Room reservation failed, please try again.");
+//        }
+
     }
 
     private static void cancellationHandler() {
