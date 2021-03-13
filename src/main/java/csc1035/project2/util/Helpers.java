@@ -3,8 +3,12 @@ package csc1035.project2.util;
 import csc1035.project2.booking.Room;
 import csc1035.project2.timetable.Module;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Scanner;
+import java.util.regex.MatchResult;
 
 /**
  * Class with helper methods
@@ -45,6 +49,7 @@ public class Helpers {
 
     /**
      * Handles input for getting a room
+     * @return selected room
      */
     public static Room getRoomInput(List<Room> rooms){
         Room selectedRoom = null;
@@ -74,6 +79,7 @@ public class Helpers {
 
     /**
      * Handles input for getting a module
+     * @return selected module
      */
     public static Module getModuleInput(List<Module> module){
         Module selectedModule = null;
@@ -100,6 +106,37 @@ public class Helpers {
         }
 
         return selectedModule;
+    }
+
+    /**
+     * Handles input for getting date
+     * @return valid LocalDateTime object
+     */
+    public static LocalDateTime getTimeInput(){
+
+        String input = null;
+        LocalDateTime dateTime = null;
+        Scanner scan =  new Scanner(System.in);
+
+        System.out.println("Format is (yyyy-mm-dd hh:mm):");
+
+        while (true) {
+            if (scan.hasNextLine()) {
+                input = scan.nextLine();
+                try {
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+                    dateTime = LocalDateTime.parse(input, formatter);
+                    break;
+                } catch (Exception e) {
+                    System.out.println("Invalid input");
+                }
+            }
+            else {
+                System.out.println("Invalid format");
+                scan.nextLine();
+            }
+        }
+        return dateTime;
     }
 
 }

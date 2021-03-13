@@ -9,6 +9,7 @@ import csc1035.project2.util.Helpers;
 import csc1035.project2.util.IController;
 import org.hibernate.Session;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -95,26 +96,49 @@ public class BookingHandler {
         Module module = Helpers.getModuleInput(c.readAll("modules"));
 
         System.out.println("Write the start time:");
+        LocalDateTime from = Helpers.getTimeInput();
 
         System.out.println("Write the end time:");
+        LocalDateTime to = Helpers.getTimeInput();
 
-//        if (booking.reserveRoom()){
-//            System.out.println("Room reserved");
-//        }
-//        else {
-//            System.out.println("Room reservation failed, please try again.");
-//        }
+        if (booking.reserveRoom(room, module, from, to)){
+            System.out.println("Room reserved");
+        }
+        else {
+            System.out.println("Room reservation failed, please try again.");
+        }
 
     }
 
     private static void cancellationHandler() {
         // Lets to cancel a room
         // Booking.cancelRoom()
+        // Make selection CLI
     }
 
+    /**
+     * Prints all the available rooms for the given parameters
+     */
     private static void findRoomsHandler() {
-        // Prints all rooms available
-        // Booking.findAvailableRooms()
+        System.out.println("Enter time for the look up");
+        LocalDateTime timeStamp = Helpers.getTimeInput();
+
+        System.out.println("Length of the reservation in minutes:");
+        int forLength = Helpers.getInput(1, 360);
+
+        System.out.println("Capacity of students wanted:");
+        int forCapacity = Helpers.getInput(1, 1000);
+
+        List<Room> rooms = booking.findAvailableRooms(timeStamp, forLength, forCapacity);
+
+        for (Room room : rooms) {
+            System.out.println("---------------------------------------------------------");
+            System.out.println("Room Number : " + room.getRoomNumber());
+            System.out.println("Type : " + room.getType());
+            System.out.println("Max Capacity : " + room.getMaxCapacity());
+            System.out.println("Social Distancing Capacity : " + room.getSocialDistancingCapacity());
+        }
+
     }
 
     private static void roomTimetableHandler() {
