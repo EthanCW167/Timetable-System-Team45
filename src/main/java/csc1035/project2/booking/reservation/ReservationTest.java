@@ -16,24 +16,8 @@ public class ReservationTest {
 
     public static void main(String[] args) {
 
-
-//        Session session = HibernateUtil.getSessionFactory().openSession();
-//        // Read
-//        session.beginTransaction();
-//
-//        List reservations = session.createQuery("from reservations ").list();
-//
-//        for (Reservations res : (Iterable< Reservations >) reservations) {
-//            System.out.println("---------------------------------------------------------");
-//            System.out.println("Room number: " + res.getRoomNumber());
-//            System.out.println("Module Id : " + res.getModuleId());
-//        }
-//        session.getTransaction().commit();
-//        session.close();
-
         IController c = new Controller();
-//        Reservation r = new Reservation();
-//
+
         List l =  c.readAll( "reservations");
 
         System.out.println(l);
