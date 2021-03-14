@@ -3,6 +3,7 @@ package csc1035.project2.CLI.handlers;
 import csc1035.project2.HibernateUtil;
 import csc1035.project2.booking.Room;
 import csc1035.project2.booking.RoomBooking;
+import csc1035.project2.booking.reservation.Reservations;
 import csc1035.project2.timetable.Module;
 import csc1035.project2.util.Controller;
 import csc1035.project2.util.Helpers;
@@ -10,7 +11,9 @@ import csc1035.project2.util.IController;
 import org.hibernate.Session;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Scanner;
 
 /**
  * Class used for handling booking actions
@@ -89,7 +92,7 @@ public class BookingHandler {
 
     private static void reservationHandler() {
 
-        System.out.println("Write the room number:");
+        System.out.println("Write the room number for reservation:");
         Room room = Helpers.getRoomInput(booking.getRoomList());
 
         System.out.println("Write the module number:");
@@ -109,11 +112,29 @@ public class BookingHandler {
         }
 
     }
-
+    /**
+     * Cancels the reservation
+     */
     private static void cancellationHandler() {
-        // Lets to cancel a room
-        // Booking.cancelRoom()
-        // Make selection CLI
+        // TODO: a way to show all of the reservations and choose which one to remove
+        System.out.println("Write the room number for cancellation:");
+        Room room = Helpers.getRoomInput(booking.getRoomList());
+
+        System.out.println("Write the module number:");
+        Module module = Helpers.getModuleInput(c.readAll("modules"));
+
+        System.out.println("Write the start time:");
+        LocalDateTime from = Helpers.getTimeInput();
+
+        System.out.println("Write the end time:");
+        LocalDateTime to = Helpers.getTimeInput();
+
+        if (booking.cancelRoom(room, module, from, to)){
+            System.out.println("Room cancelled");
+        }
+        else {
+            System.out.println("Room cancellation failed, please try again.");
+        }
     }
 
     /**
@@ -141,14 +162,52 @@ public class BookingHandler {
 
     }
 
+    /**
+     * Prints a timetable for the given room
+     */
     private static void roomTimetableHandler() {
-        // Prints timetable of a room
-        // Booking.createRoomTimetable()
+
+        System.out.println("Room to make timetable for:");
+        Room room = Helpers.getRoomInput(booking.getRoomList());
+        List<Reservations> reservations = booking.createRoomTimetable(room);
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+
+        System.out.println("Timetable for the room: " + room.getRoomNumber());
+        for (Reservations r: reservations){
+            System.out.println("---------------------------------------------------------");
+            System.out.println(r.getFrom().format(formatter) + " to " + r.getTo().format(formatter));
+            System.out.println("Reserved for " + r.getModuleId());
+
+        }
+
     }
 
+    /**
+     * Updates a room
+     */
     private static void updateRoomHandler() {
-        // Lets to update a room
-        // Booking.updateRoomInfo()
+        System.out.println("Room to update to:");
+        Room room = Helpers.getRoomInput(booking.getRoomList());
+
+        Scanner sc = new Scanner(System.in);
+        System.out.println("New room type");
+        String type = sc.next();
+
+        System.out.println("New capacity");
+        int newCapcity = Helpers.getInput(1, 500);
+
+        System.out.println("New socially distant capacity");
+        int newSocialCapacity = Helpers.getInput(1, 500);
+
+        Room newRoom = new Room(room.getRoomNumber(), type, newCapcity, newSocialCapacity);
+
+        if (booking.updateRoomInfo(room.getRoomNumber(), newRoom)){
+            System.out.println("Room updated");
+        }
+        else {
+            System.out.println("Room update failed, please try again.");
+        }
     }
 
     /**
