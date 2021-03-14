@@ -90,6 +90,9 @@ public class BookingHandler {
         }
     }
 
+    /**
+     * Reserves a room
+     */
     private static void reservationHandler() {
 
         System.out.println("Write the room number for reservation:");
@@ -112,6 +115,7 @@ public class BookingHandler {
         }
 
     }
+
     /**
      * Cancels the reservation
      */
