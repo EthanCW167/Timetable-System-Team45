@@ -4,11 +4,14 @@ import csc1035.project2.HibernateUtil;
 import csc1035.project2.booking.reservation.Reservations;
 import csc1035.project2.timetable.Module;
 
+import csc1035.project2.util.Controller;
+import csc1035.project2.util.IController;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +19,7 @@ import java.util.List;
  * A class that allows the user to book rooms and produce timetables for a room
  *
  * @author Dillon Reed
+ * @author Titas Janusonis
  */
 public class RoomBooking implements IBooking{
     private List<Room> roomList = new ArrayList<>();
@@ -48,6 +52,8 @@ public class RoomBooking implements IBooking{
     @Override
     public boolean reserveRoom(Room r, Module m, LocalDateTime from, LocalDateTime to) {
         boolean completed = false;
+        IController c = new Controller();
+
 
         // Adding validation to the parameters
         // Checks if the "from" date is before the current date
@@ -55,37 +61,36 @@ public class RoomBooking implements IBooking{
         if(from.isBefore(LocalDateTime.now()) || to.isBefore(from)){
             return false;
         }
-
-        // Opening session
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        // Formatting the datetime object and inserting a reservation
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        Session session = null;
+        System.out.println(r.getRoomNumber());
+        System.out.println(m.getId());
+        System.out.println(from.format(formatter));
+        System.out.println(to.format(formatter));
         try {
-            // Beginning session
+            session = HibernateUtil.getSessionFactory().openSession();
             session.beginTransaction();
 
-            // Creating the Reservation
-            Reservations newReservation = new Reservations();
-            newReservation.setRoomNumber(r.getRoomNumber());
-            newReservation.setModuleId(m.getId());
-            newReservation.setFrom(from);
-            newReservation.setTo(to);
+            javax.persistence.Query query =session.createSQLQuery("INSERT INTO reservations VALUES (:room, :module, :from, :to)");
+            query.setParameter("room", r.getRoomNumber());
+            query.setParameter("module", m.getId());
+            query.setParameter("from", from.format(formatter));
+            query.setParameter("to", to.format(formatter));
 
-            // Saving to database
-            session.save(newReservation);
-
-            // End/commit transaction
+            query.executeUpdate();
             session.getTransaction().commit();
-
-            // Setting completed flag to true
             completed = true;
-        }catch (HibernateException e){
-            // If error occurs then rollsback
-            if (session!=null){
-                session.getTransaction().rollback();
+        } catch (HibernateException ex) {
+            if (session!=null) session.getTransaction().rollback();
+            ex.printStackTrace();
+        } finally {
+            if (session != null) {
+                session.close();
             }
-        }finally {
-            // Closes the session
-            session.close();
         }
+
+
         // Returns whether or not the reservation was added
         return completed;
     }

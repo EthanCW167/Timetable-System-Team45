@@ -79,7 +79,7 @@ public class TestingRoomBookingClass {
 
         // Prints the number of reservations before and then after the reservation should be made
         System.out.println(getReservations().size());
-        boolean test = roomBooker.reserveRoom(room, module, LocalDateTime.now(), LocalDateTime.of(2001, 10, 13, 15, 10));
+        boolean test = roomBooker.reserveRoom(room, module, LocalDateTime.now(), LocalDateTime.of(2021, 10, 13, 15, 10));
         System.out.println("Reservation made : " + test);
         System.out.println(getReservations().size());
     }
@@ -157,9 +157,9 @@ public class TestingRoomBookingClass {
         TestingRoomBookingClass tester = new TestingRoomBookingClass();
 
         tester.testReserveRoom();
-        tester.testCancelRoom();
-        tester.testFindAvailableRooms();
-        tester.testCreateRoomTimetable();
-        tester.testUpdateRoomInfo();
+//        tester.testCancelRoom();
+//        tester.testFindAvailableRooms();
+//        tester.testCreateRoomTimetable();
+//        tester.testUpdateRoomInfo();
     }
 }

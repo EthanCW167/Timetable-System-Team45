@@ -2,6 +2,7 @@ package csc1035.project2.booking.reservation;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.sql.Timestamp;
 
 /**
  * A class for Reservation table in DB
