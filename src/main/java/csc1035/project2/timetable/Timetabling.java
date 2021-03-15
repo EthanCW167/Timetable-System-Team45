@@ -59,8 +59,8 @@ public class Timetabling {
     }
 
     /**
-     * This module is responsible for returning a list of
-     * @return
+     * This method is responsible for returning a list of all module requirements
+     * @return array containing module requirements
      */
 
     public static List moduleRequirements(){
@@ -76,4 +76,24 @@ public class Timetabling {
 
         return moduleRequirements; // return array of module requirements
     }
+
+    /**
+     * this method takes a parameter moduleId and returns the module requirements for that id
+     * @param moduleId ID of the module that the requirements for will be retrieved
+     * @return List containing the module requirements for the particular module
+     */
+
+   public static List specificModuleRequirements(String moduleId){
+
+       Session session = HibernateUtil.getSessionFactory().openSession(); // Establish connection with database
+       session.beginTransaction();
+
+       List moduleRequirements = session.createQuery("from moduleRequirements where id = :id").setParameter("id",moduleId).list();
+       // Query database for specific module requirements
+
+       session.getTransaction().commit();
+       session.close(); // Close connection with database
+
+       return moduleRequirements; // return array of module requirements for particular module
+   }
 }
