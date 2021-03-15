@@ -6,6 +6,7 @@ import csc1035.project2.timetable.Module;
 import org.hibernate.Session;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -78,10 +79,10 @@ public class TestingRoomBookingClass {
         Module module = getModules().get(randomNumber.nextInt(getModules().size()));
 
         // Prints the number of reservations before and then after the reservation should be made
-        System.out.println(getReservations().size());
-        boolean test = roomBooker.reserveRoom(room, module, LocalDateTime.now(), LocalDateTime.of(2001, 10, 13, 15, 10));
+        System.out.println("There are : " + getReservations().size() + " Reservations");
+        boolean test = roomBooker.reserveRoom(room, module, LocalDateTime.now(), LocalDateTime.of(2021, 3, 15, 15, 10));
         System.out.println("Reservation made : " + test);
-        System.out.println(getReservations().size());
+        System.out.println("There are : " + getReservations().size() + " Reservations");
     }
 
     /**
@@ -118,12 +119,24 @@ public class TestingRoomBookingClass {
      */
     public void testCreateRoomTimetable(){
         // Finds a random room from the database
-        Room room = getRooms().get(randomNumber.nextInt(getRooms().size()));
+        List<Reservations> reservationsList = new ArrayList<>();
+
+        boolean found = false;
+        while (!found) {
+            Room room = getRooms().get(randomNumber.nextInt(getRooms().size()));
+            if (room.getRoomNumber().equals("0.365") || room.getRoomNumber().equals("1.862")){
+                reservationsList = roomBooker.createRoomTimetable(room);
+                found = true;
+            }
+        }
 
         // Prints out the timetable for the room
-        List<Reservations> reservationsList = roomBooker.createRoomTimetable(room);
         for (Reservations reservation:reservationsList) {
-            System.out.println(reservation);
+            System.out.println("\nReservation :");
+            System.out.println("Room Number : " + reservation.getRoomNumber());
+            System.out.println("Module ID : " + reservation.getModuleId());
+            System.out.println("From date : " + reservation.getFrom());
+            System.out.println("To date : " + reservation.getTo());
         }
     }
 
@@ -156,10 +169,10 @@ public class TestingRoomBookingClass {
     public static void main(String[] args) {
         TestingRoomBookingClass tester = new TestingRoomBookingClass();
 
-        tester.testReserveRoom();
-        tester.testCancelRoom();
-        tester.testFindAvailableRooms();
-        tester.testCreateRoomTimetable();
-        tester.testUpdateRoomInfo();
+        //tester.testReserveRoom();
+        //tester.testCancelRoom();
+        //tester.testFindAvailableRooms();
+        tester.testCreateRoomTimetable(); // Working
+        //tester.testUpdateRoomInfo();
     }
 }
