@@ -7,7 +7,7 @@ public  interface IController<E>  {
 
     void update(E s);
 
-    E readById(Class<E> c, int id);
+    E readById(Class<E> c, String id);
 
     List<E> readAll(String name);
 
