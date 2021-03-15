@@ -108,10 +108,10 @@ public class TestingRoomBookingClass {
         roomBooker.setRoomList(getRooms());
 
         // Print out the available rooms for given parameters
-        List<Room> availableRooms = roomBooker.findAvailableRooms(LocalDateTime.now(), 1, 1);
-        System.out.println(availableRooms);
+        List<Room> availableRooms = roomBooker.findAvailableRooms(LocalDateTime.now(), 60, 30);
+        System.out.println("Available Rooms : ");
         for (Room room :availableRooms) {
-            System.out.println(room);
+            System.out.println(room.getRoomNumber());
         }
     }
 
@@ -172,8 +172,8 @@ public class TestingRoomBookingClass {
 
         //tester.testReserveRoom();
         //tester.testCancelRoom();
-        //tester.testFindAvailableRooms();
-        tester.testCreateRoomTimetable(); // Working
+        tester.testFindAvailableRooms(); // Working
+        //tester.testCreateRoomTimetable(); // Working
         //tester.testUpdateRoomInfo();
     }
 }
