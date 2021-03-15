@@ -4,11 +4,14 @@ import csc1035.project2.HibernateUtil;
 import csc1035.project2.booking.reservation.Reservations;
 import csc1035.project2.timetable.Module;
 
+import csc1035.project2.util.Controller;
+import csc1035.project2.util.IController;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,12 +19,17 @@ import java.util.List;
  * A class that allows the user to book rooms and produce timetables for a room
  *
  * @author Dillon Reed
+ * @author Titas Janusonis
  */
 public class RoomBooking implements IBooking{
     private List<Room> roomList = new ArrayList<>();
+    private Session session;
+    private DateTimeFormatter formatter;
 
     public RoomBooking(List<Room> roomList) {
         this.roomList = roomList;
+        formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        session = null;
     }
 
     public List<Room> getRoomList() {
@@ -48,6 +56,8 @@ public class RoomBooking implements IBooking{
     @Override
     public boolean reserveRoom(Room r, Module m, LocalDateTime from, LocalDateTime to) {
         boolean completed = false;
+        IController c = new Controller();
+
 
         // Adding validation to the parameters
         // Checks if the "from" date is before the current date
@@ -55,37 +65,30 @@ public class RoomBooking implements IBooking{
         if(from.isBefore(LocalDateTime.now()) || to.isBefore(from)){
             return false;
         }
-
-        // Opening session
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        // Formatting the datetime object and inserting a reservation
         try {
-            // Beginning session
+            session = HibernateUtil.getSessionFactory().openSession();
             session.beginTransaction();
 
-            // Creating the Reservation
-            Reservations newReservation = new Reservations();
-            newReservation.setRoomNumber(r.getRoomNumber());
-            newReservation.setModuleId(m.getId());
-            newReservation.setFrom(from);
-            newReservation.setTo(to);
+            Query query =session.createSQLQuery("INSERT INTO reservations VALUES (:room, :module, :from, :to)");
+            query.setParameter("room", r.getRoomNumber());
+            query.setParameter("module", m.getId());
+            query.setParameter("from", from.format(formatter));
+            query.setParameter("to", to.format(formatter));
 
-            // Saving to database
-            session.save(newReservation);
-
-            // End/commit transaction
+            query.executeUpdate();
             session.getTransaction().commit();
-
-            // Setting completed flag to true
             completed = true;
-        }catch (HibernateException e){
-            // If error occurs then rollsback
-            if (session!=null){
-                session.getTransaction().rollback();
+        } catch (HibernateException ex) {
+            if (session!=null) session.getTransaction().rollback();
+            ex.printStackTrace();
+        } finally {
+            if (session != null) {
+                session.close();
             }
-        }finally {
-            // Closes the session
-            session.close();
         }
+
+
         // Returns whether or not the reservation was added
         return completed;
     }
@@ -109,15 +112,15 @@ public class RoomBooking implements IBooking{
             session.beginTransaction();
 
             // Finding the correct reservation
-            Query reservationToBeDeleted = session.createQuery("from reservations " +
-                    "where roomNumber=:roomNumber and moduleId=:moduleId and from=:from and to=:to");
-            reservationToBeDeleted.setParameter("roomNumber", r.getRoomNumber());
-            reservationToBeDeleted.setParameter("moduleId", m.getId());
-            reservationToBeDeleted.setParameter("from", from);
-            reservationToBeDeleted.setParameter("to", to);
+            Query query = session.createSQLQuery("DELETE FROM reservations WHERE roomNumber= :room AND moduleId= :module" +
+                    " AND `from` = :from AND `to` = :to");
+            query.setParameter("room", r.getRoomNumber());
+            query.setParameter("module", m.getId());
+            query.setParameter("from", from.format(formatter));
+            query.setParameter("to", to.format(formatter));
 
             // Deleting the correct reservation
-            session.delete(reservationToBeDeleted);
+            query.executeUpdate();
 
             // End / commit transaction
             session.getTransaction().commit();
@@ -152,14 +155,23 @@ public class RoomBooking implements IBooking{
         // Loops through each room in the roomList
         for (Room room:roomList) {
             // Checks if the room max capacity is less than the capacity that is needed
-            if(room.getMaxCapacity() < forCapacity){
-                // Loops through the reservation for the room
-                for (Reservations reservation:createRoomTimetable(room)) {
-                    // Checks that the "to" of the reservation is before the start time of the "timeStamp" OR
-                    // that the reservation "from" time is after the "endTime"
-                    if (reservation.getTo().isBefore(timeStamp) || reservation.getFrom().isAfter(endTime)){
-                        applicableRooms.add(room);
+            if(room.getMaxCapacity() >= forCapacity){
+                // Loops through the reservations for the room
+
+                List<Reservations> reservationsList = createRoomTimetable(room);
+
+                if (reservationsList.size() > 0) {
+                    for (Reservations reservation : reservationsList) {
+                        // Checks that the "to" of the reservation is before the start time of the "timeStamp" OR
+                        // that the reservation "from" time is after the "endTime"
+                        if (reservation.getTo().isBefore(timeStamp) || reservation.getFrom().isAfter(endTime)) {
+                            if (!applicableRooms.contains(room)) {
+                                applicableRooms.add(room);
+                            }
+                        }
                     }
+                }else{
+                    applicableRooms.add(room);
                 }
             }
         }
@@ -224,7 +236,7 @@ public class RoomBooking implements IBooking{
             // Finding correct Room
             Query query = session.createQuery("from rooms where roomNumber=:roomNumber");
             query.setParameter("roomNumber", roomNumber);
-            Room roomToBeUpdated = (Room) query;
+            Room roomToBeUpdated = (Room) query.list().get(0);
 
             // Adjusting values of the room
             roomToBeUpdated.setRoomNumber(newRoom.getRoomNumber());

@@ -6,6 +6,7 @@ import csc1035.project2.timetable.Module;
 import org.hibernate.Session;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -78,10 +79,10 @@ public class TestingRoomBookingClass {
         Module module = getModules().get(randomNumber.nextInt(getModules().size()));
 
         // Prints the number of reservations before and then after the reservation should be made
-        System.out.println(getReservations().size());
-        boolean test = roomBooker.reserveRoom(room, module, LocalDateTime.now(), LocalDateTime.of(2001, 10, 13, 15, 10));
+        System.out.println("There are : " + getReservations().size() + " Reservations");
+        boolean test = roomBooker.reserveRoom(room, module, LocalDateTime.now(), LocalDateTime.of(2021, 3, 15, 15, 10));
         System.out.println("Reservation made : " + test);
-        System.out.println(getReservations().size());
+        System.out.println("There are : " + getReservations().size() + " Reservations");
     }
 
     /**
@@ -94,7 +95,9 @@ public class TestingRoomBookingClass {
 
         // Prints the number of reservations before and then after the reservation should be deleted
         System.out.println(getReservations().size());
-        boolean test = roomBooker.cancelRoom(room, module, LocalDateTime.now(), LocalDateTime.of(2001, 10, 13, 15, 10));
+        boolean test = roomBooker.cancelRoom(room, module, LocalDateTime.of(2001, 10, 10, 10, 10, 0),
+                LocalDateTime.of(2001, 10, 10, 11, 10, 0));
+
         System.out.println("Reservation deleted : " + test);
         System.out.println(getReservations().size());
     }
@@ -108,8 +111,9 @@ public class TestingRoomBookingClass {
 
         // Print out the available rooms for given parameters
         List<Room> availableRooms = roomBooker.findAvailableRooms(LocalDateTime.now(), 60, 30);
+        System.out.println("Available Rooms : ");
         for (Room room :availableRooms) {
-            System.out.println(room);
+            System.out.println(room.getRoomNumber());
         }
     }
 
@@ -118,12 +122,24 @@ public class TestingRoomBookingClass {
      */
     public void testCreateRoomTimetable(){
         // Finds a random room from the database
-        Room room = getRooms().get(randomNumber.nextInt(getRooms().size()));
+        List<Reservations> reservationsList = new ArrayList<>();
+
+        boolean found = false;
+        while (!found) {
+            Room room = getRooms().get(randomNumber.nextInt(getRooms().size()));
+            reservationsList = roomBooker.createRoomTimetable(room);
+            if (reservationsList.size() > 0){
+                found = true;
+            }
+        }
 
         // Prints out the timetable for the room
-        List<Reservations> reservationsList = roomBooker.createRoomTimetable(room);
         for (Reservations reservation:reservationsList) {
-            System.out.println(reservation);
+            System.out.println("\nReservation :");
+            System.out.println("Room Number : " + reservation.getRoomNumber());
+            System.out.println("Module ID : " + reservation.getModuleId());
+            System.out.println("From date : " + reservation.getFrom());
+            System.out.println("To date : " + reservation.getTo());
         }
     }
 
@@ -133,24 +149,40 @@ public class TestingRoomBookingClass {
     public void testUpdateRoomInfo(){
         // Finds a random room from the database
         int randomIndex = randomNumber.nextInt(getRooms().size()-1);
-        Room room = getRooms().get(randomIndex);
+        List<Room> rooms = getRooms();
+        Room room = rooms.get(randomIndex);
 
-        // Prints out the rooms at index: x, x-1, x+1
-        System.out.println(getRooms().get(randomIndex));
-        System.out.println(getRooms().get(randomIndex-1));
-        System.out.println(getRooms().get(randomIndex+1));
+        // Prints out the room's info
+        System.out.println("\n------------- Room to Updated ------------");
+        System.out.println("Room Number : " + room.getRoomNumber());
+        System.out.println("Max capacity : " + room.getMaxCapacity());
+        System.out.println("Social Distancing capacity : " + room.getSocialDistancingCapacity());
+        System.out.println("Type : " + room.getType());
 
-        // Updates the room at index x with x+1
-        Room newRoom = getRooms().get(randomIndex+1);
+        // Updates the room with a random room's info
+        Room newRoom = rooms.get(randomIndex+1);
         newRoom.setRoomNumber(room.getRoomNumber());
 
-        boolean roomChanged = roomBooker.updateRoomInfo(room.getRoomNumber(), newRoom);
-        System.out.println(roomChanged);
+        // Prints the newRoom's info
+        System.out.println("\n------------ Info to be put in --------------");
+        System.out.println("Room Number : " + newRoom.getRoomNumber());
+        System.out.println("Max capacity : " + newRoom.getMaxCapacity());
+        System.out.println("Social Distancing capacity : " + newRoom.getSocialDistancingCapacity());
+        System.out.println("Type : " + newRoom.getType());
 
-        // Prints out the rooms at index: x, x-1, x+1 again to show difference
-        System.out.println(getRooms().get(randomIndex));
-        System.out.println(getRooms().get(randomIndex-1));
-        System.out.println(getRooms().get(randomIndex+1));
+        boolean roomChanged = roomBooker.updateRoomInfo(room.getRoomNumber(), newRoom);
+        System.out.println("Was the room updated successfully : " + roomChanged);
+
+        // Updates the rooms list
+        rooms = getRooms();
+        room = rooms.get(randomIndex);
+
+        // Prints out the room's info again so you can see that it was updated correctly
+        System.out.println("\n------------- Room that was Updated ------------");
+        System.out.println("Room Number : " + room.getRoomNumber());
+        System.out.println("Max capacity : " + room.getMaxCapacity());
+        System.out.println("Social Distancing capacity : " + room.getSocialDistancingCapacity());
+        System.out.println("Type : " + room.getType());
     }
 
     public static void main(String[] args) {
@@ -158,8 +190,8 @@ public class TestingRoomBookingClass {
 
         tester.testReserveRoom();
         tester.testCancelRoom();
-        tester.testFindAvailableRooms();
-        tester.testCreateRoomTimetable();
-        tester.testUpdateRoomInfo();
+        tester.testFindAvailableRooms(); // Working
+        tester.testCreateRoomTimetable(); // Working
+        tester.testUpdateRoomInfo(); // Working
     }
 }
