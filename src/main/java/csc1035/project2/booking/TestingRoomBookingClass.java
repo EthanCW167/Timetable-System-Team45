@@ -94,7 +94,9 @@ public class TestingRoomBookingClass {
 
         // Prints the number of reservations before and then after the reservation should be deleted
         System.out.println(getReservations().size());
-        boolean test = roomBooker.cancelRoom(room, module, LocalDateTime.now(), LocalDateTime.of(2001, 10, 13, 15, 10));
+        boolean test = roomBooker.cancelRoom(room, module, LocalDateTime.of(2001, 10, 10, 10, 10, 0),
+                LocalDateTime.of(2001, 10, 10, 11, 10, 0));
+
         System.out.println("Reservation deleted : " + test);
         System.out.println(getReservations().size());
     }
@@ -156,8 +158,8 @@ public class TestingRoomBookingClass {
     public static void main(String[] args) {
         TestingRoomBookingClass tester = new TestingRoomBookingClass();
 
-        tester.testReserveRoom();
-//        tester.testCancelRoom();
+//        tester.testReserveRoom();
+        tester.testCancelRoom();
 //        tester.testFindAvailableRooms();
 //        tester.testCreateRoomTimetable();
 //        tester.testUpdateRoomInfo();

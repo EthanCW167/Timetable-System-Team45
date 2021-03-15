@@ -23,9 +23,13 @@ import java.util.List;
  */
 public class RoomBooking implements IBooking{
     private List<Room> roomList = new ArrayList<>();
+    private Session session;
+    private DateTimeFormatter formatter;
 
     public RoomBooking(List<Room> roomList) {
         this.roomList = roomList;
+        formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        session = null;
     }
 
     public List<Room> getRoomList() {
@@ -62,13 +66,11 @@ public class RoomBooking implements IBooking{
             return false;
         }
         // Formatting the datetime object and inserting a reservation
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-        Session session = null;
         try {
             session = HibernateUtil.getSessionFactory().openSession();
             session.beginTransaction();
 
-            javax.persistence.Query query =session.createSQLQuery("INSERT INTO reservations VALUES (:room, :module, :from, :to)");
+            Query query =session.createSQLQuery("INSERT INTO reservations VALUES (:room, :module, :from, :to)");
             query.setParameter("room", r.getRoomNumber());
             query.setParameter("module", m.getId());
             query.setParameter("from", from.format(formatter));
@@ -110,15 +112,15 @@ public class RoomBooking implements IBooking{
             session.beginTransaction();
 
             // Finding the correct reservation
-            Query reservationToBeDeleted = session.createQuery("from reservations " +
-                    "where roomNumber=:roomNumber and moduleId=:moduleId and from=:from and to=:to");
-            reservationToBeDeleted.setParameter("roomNumber", r.getRoomNumber());
-            reservationToBeDeleted.setParameter("moduleId", m.getId());
-            reservationToBeDeleted.setParameter("from", from);
-            reservationToBeDeleted.setParameter("to", to);
+            Query query = session.createSQLQuery("DELETE FROM reservations WHERE roomNumber= :room AND moduleId= :module" +
+                    " AND `from` = :from AND `to` = :to");
+            query.setParameter("room", r.getRoomNumber());
+            query.setParameter("module", m.getId());
+            query.setParameter("from", from.format(formatter));
+            query.setParameter("to", to.format(formatter));
 
             // Deleting the correct reservation
-            session.delete(reservationToBeDeleted);
+            query.executeUpdate();
 
             // End / commit transaction
             session.getTransaction().commit();
