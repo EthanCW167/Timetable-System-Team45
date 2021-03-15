@@ -196,7 +196,7 @@ public class BookingHandler {
 
         Scanner sc = new Scanner(System.in);
         System.out.println("New room type");
-        String type = sc.next();
+        String type = sc.nextLine();
 
         System.out.println("New capacity");
         int newCapcity = Helpers.getInput(1, 500);
