@@ -147,24 +147,29 @@ public class TestingRoomBookingClass {
     public void testUpdateRoomInfo(){
         // Finds a random room from the database
         int randomIndex = randomNumber.nextInt(getRooms().size()-1);
-        Room room = getRooms().get(randomIndex);
+        List<Room> rooms = getRooms();
+        Room room = rooms.get(randomIndex);
 
-        // Prints out the rooms at index: x, x-1, x+1
-        System.out.println(getRooms().get(randomIndex));
-        System.out.println(getRooms().get(randomIndex-1));
-        System.out.println(getRooms().get(randomIndex+1));
+        // Prints out the room's info
+        System.out.println("\n------------- Room to Updated ------------");
+        System.out.println("Room Number : " + room.getRoomNumber());
+        System.out.println("Max capacity : " + room.getMaxCapacity());
+        System.out.println("Social Distancing capacity : " + room.getSocialDistancingCapacity());
+        System.out.println("Type : " + room.getType());
 
-        // Updates the room at index x with x+1
+        // Updates the room with a random room's info
         Room newRoom = getRooms().get(randomIndex+1);
         newRoom.setRoomNumber(room.getRoomNumber());
 
-        boolean roomChanged = roomBooker.updateRoomInfo(room.getRoomNumber(), newRoom);
-        System.out.println(roomChanged);
+        // Prints the newRoom's info
+        System.out.println("\n------------ Info to be put in --------------");
+        System.out.println("Room Number : " + newRoom.getRoomNumber());
+        System.out.println("Max capacity : " + newRoom.getMaxCapacity());
+        System.out.println("Social Distancing capacity : " + newRoom.getSocialDistancingCapacity());
+        System.out.println("Type : " + newRoom.getType());
 
-        // Prints out the rooms at index: x, x-1, x+1 again to show difference
-        System.out.println(getRooms().get(randomIndex));
-        System.out.println(getRooms().get(randomIndex-1));
-        System.out.println(getRooms().get(randomIndex+1));
+        boolean roomChanged = roomBooker.updateRoomInfo(room.getRoomNumber(), newRoom);
+        System.out.println("Was the room updated successfully : " + roomChanged);
     }
 
     public static void main(String[] args) {
@@ -172,8 +177,8 @@ public class TestingRoomBookingClass {
 
         //tester.testReserveRoom();
         //tester.testCancelRoom();
-        tester.testFindAvailableRooms(); // Working
+        //tester.testFindAvailableRooms(); // Working
         //tester.testCreateRoomTimetable(); // Working
-        //tester.testUpdateRoomInfo();
+        tester.testUpdateRoomInfo();
     }
 }
