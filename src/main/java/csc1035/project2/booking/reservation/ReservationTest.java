@@ -17,7 +17,8 @@ public class ReservationTest {
     public static void main(String[] args) {
 
         IController c = new Controller();
-
+//        Reservation r = new Reservation();
+//
         List l =  c.readAll( "reservations");
 
         System.out.println(l);
