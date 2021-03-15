@@ -108,7 +108,8 @@ public class TestingRoomBookingClass {
         roomBooker.setRoomList(getRooms());
 
         // Print out the available rooms for given parameters
-        List<Room> availableRooms = roomBooker.findAvailableRooms(LocalDateTime.now(), 60, 30);
+        List<Room> availableRooms = roomBooker.findAvailableRooms(LocalDateTime.now(), 1, 1);
+        System.out.println(availableRooms);
         for (Room room :availableRooms) {
             System.out.println(room);
         }
@@ -124,8 +125,8 @@ public class TestingRoomBookingClass {
         boolean found = false;
         while (!found) {
             Room room = getRooms().get(randomNumber.nextInt(getRooms().size()));
-            if (room.getRoomNumber().equals("0.365") || room.getRoomNumber().equals("1.862")){
-                reservationsList = roomBooker.createRoomTimetable(room);
+            reservationsList = roomBooker.createRoomTimetable(room);
+            if (reservationsList.size() > 0){
                 found = true;
             }
         }
