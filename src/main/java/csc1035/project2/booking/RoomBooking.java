@@ -64,10 +64,6 @@ public class RoomBooking implements IBooking{
         // Formatting the datetime object and inserting a reservation
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         Session session = null;
-        System.out.println(r.getRoomNumber());
-        System.out.println(m.getId());
-        System.out.println(from.format(formatter));
-        System.out.println(to.format(formatter));
         try {
             session = HibernateUtil.getSessionFactory().openSession();
             session.beginTransaction();
