@@ -155,14 +155,23 @@ public class RoomBooking implements IBooking{
         // Loops through each room in the roomList
         for (Room room:roomList) {
             // Checks if the room max capacity is less than the capacity that is needed
-            if(room.getMaxCapacity() < forCapacity){
-                // Loops through the reservation for the room
-                for (Reservations reservation:createRoomTimetable(room)) {
-                    // Checks that the "to" of the reservation is before the start time of the "timeStamp" OR
-                    // that the reservation "from" time is after the "endTime"
-                    if (reservation.getTo().isBefore(timeStamp) || reservation.getFrom().isAfter(endTime)){
-                        applicableRooms.add(room);
+            if(room.getMaxCapacity() >= forCapacity){
+                // Loops through the reservations for the room
+
+                List<Reservations> reservationsList = createRoomTimetable(room);
+
+                if (reservationsList.size() > 0) {
+                    for (Reservations reservation : reservationsList) {
+                        // Checks that the "to" of the reservation is before the start time of the "timeStamp" OR
+                        // that the reservation "from" time is after the "endTime"
+                        if (reservation.getTo().isBefore(timeStamp) || reservation.getFrom().isAfter(endTime)) {
+                            if (!applicableRooms.contains(room)) {
+                                applicableRooms.add(room);
+                            }
+                        }
                     }
+                }else{
+                    applicableRooms.add(room);
                 }
             }
         }
@@ -227,7 +236,7 @@ public class RoomBooking implements IBooking{
             // Finding correct Room
             Query query = session.createQuery("from rooms where roomNumber=:roomNumber");
             query.setParameter("roomNumber", roomNumber);
-            Room roomToBeUpdated = (Room) query;
+            Room roomToBeUpdated = (Room) query.list().get(0);
 
             // Adjusting values of the room
             roomToBeUpdated.setRoomNumber(newRoom.getRoomNumber());
