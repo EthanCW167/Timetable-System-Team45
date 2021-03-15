@@ -158,7 +158,7 @@ public class TestingRoomBookingClass {
         System.out.println("Type : " + room.getType());
 
         // Updates the room with a random room's info
-        Room newRoom = getRooms().get(randomIndex+1);
+        Room newRoom = rooms.get(randomIndex+1);
         newRoom.setRoomNumber(room.getRoomNumber());
 
         // Prints the newRoom's info
@@ -170,6 +170,17 @@ public class TestingRoomBookingClass {
 
         boolean roomChanged = roomBooker.updateRoomInfo(room.getRoomNumber(), newRoom);
         System.out.println("Was the room updated successfully : " + roomChanged);
+
+        // Updates the rooms list
+        rooms = getRooms();
+        room = rooms.get(randomIndex);
+
+        // Prints out the room's info again so you can see that it was updated correctly
+        System.out.println("\n------------- Room that was Updated ------------");
+        System.out.println("Room Number : " + room.getRoomNumber());
+        System.out.println("Max capacity : " + room.getMaxCapacity());
+        System.out.println("Social Distancing capacity : " + room.getSocialDistancingCapacity());
+        System.out.println("Type : " + room.getType());
     }
 
     public static void main(String[] args) {
@@ -179,6 +190,6 @@ public class TestingRoomBookingClass {
         //tester.testCancelRoom();
         //tester.testFindAvailableRooms(); // Working
         //tester.testCreateRoomTimetable(); // Working
-        tester.testUpdateRoomInfo();
+        tester.testUpdateRoomInfo(); // Working
     }
 }
