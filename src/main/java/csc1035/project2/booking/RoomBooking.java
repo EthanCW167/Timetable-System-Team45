@@ -233,7 +233,7 @@ public class RoomBooking implements IBooking{
             // Finding correct Room
             Query query = session.createQuery("from rooms where roomNumber=:roomNumber");
             query.setParameter("roomNumber", roomNumber);
-            Room roomToBeUpdated = (Room) query;
+            Room roomToBeUpdated = (Room) query.list().get(0);
 
             // Adjusting values of the room
             roomToBeUpdated.setRoomNumber(newRoom.getRoomNumber());
