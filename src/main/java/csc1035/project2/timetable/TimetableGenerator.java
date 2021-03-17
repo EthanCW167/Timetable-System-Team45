@@ -36,10 +36,10 @@ public class TimetableGenerator {
 
 
     }
-    public List<Module> generateTimetable()
+    public boolean generateTimetable()
     {
         List<Module> modules = controller.readAll("modules");
-        return modules;
+
         for (Module m : modules)
         {
             //moduleCapacity = SELECT FROM takes t count (distinct(t.studentID)) WHERE t.moduleID = :moduleID
@@ -61,7 +61,7 @@ public class TimetableGenerator {
             roomBooker.reserveRoom(bookedRoom,m,LocalDateTime.of(currentDate, currentTime),LocalDateTime.of(currentDate, currentTime.plusHours(lectureLength)));
 
         }
-
+        return true;
     }
     private void setCurrentTime(int minsAdded)
     {
