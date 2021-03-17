@@ -1,6 +1,11 @@
 package csc1035.project2.CLI.handlers;
 
+import csc1035.project2.timetable.TimetableGenerator;
+import csc1035.project2.timetable.*;
 import csc1035.project2.util.Helpers;
+
+import java.util.ArrayList;
+import java.util.Scanner;
 
 /**
  * Class used for handling timetabling actions
@@ -11,12 +16,15 @@ import csc1035.project2.util.Helpers;
 public class TimetableHandler {
 
     private static boolean exit;
+    private static TimetableGenerator generator;
 
     public TimetableHandler(){
         exit = false;
+        generator = new TimetableGenerator();
     }
     public void run(){
         System.out.println("Welcome to the timetabling system");
+        generator.generateTimetable();
 
         while (!exit){
             printMenu();
@@ -57,10 +65,22 @@ public class TimetableHandler {
 
     private static void timetableHandler(String type) {
         // Prints timetable for the school
+
+        Timetable fullTimetable = generator.createTimetable((ArrayList<String>) null,null);
+        System.out.println(fullTimetable.toString());
+
     }
 
     private static void personTimetableHandler() {
         // Prints persons timetable
+
+        System.out.println("Please enter your student/teacher ID");
+        Scanner sc = new Scanner(System.in);
+        String Id = sc.nextLine();
+        ArrayList<String> idList = new ArrayList<>();
+        idList.add(Id);
+        Timetable studentTimetable = generator.createTimetable(null,idList);
+        System.out.println(studentTimetable.toString());
     }
 
 
@@ -81,3 +101,4 @@ public class TimetableHandler {
         System.out.println("5 --- Return");
     }
 }
+
