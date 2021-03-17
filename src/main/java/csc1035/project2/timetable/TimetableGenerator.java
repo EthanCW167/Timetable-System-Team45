@@ -3,12 +3,13 @@ package csc1035.project2.timetable;
 import csc1035.project2.HibernateUtil;
 import csc1035.project2.booking.Room;
 import csc1035.project2.booking.RoomBooking;
+import csc1035.project2.booking.reservation.Reservations;
+import csc1035.project2.timetable.Person.Person;
 import csc1035.project2.util.Controller;
 import csc1035.project2.util.IController;
 import org.hibernate.Session;
-
-
 import java.time.*;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -36,6 +37,53 @@ public class TimetableGenerator {
 
 
     }
+
+    public List<Reservations> getReservations(List<String> moduleIds)
+    {
+        List<Reservations> reservations = new ArrayList<>();
+        if (moduleIds != null) {
+            for (String moduleID : moduleIds) {
+                reservations.addAll((s.createQuery("from reservations where  reservations.moduleId = :id").setParameter("id", moduleID).list()));
+                //This gets all the reservations found for each module
+            }
+        }
+        return reservations;
+
+    }
+    public Timetable createTimetable(ArrayList<String> moduleIDs, ArrayList<String> peopleIDs)
+    {
+        List<String> tempModuleIDs = new ArrayList();
+        if (peopleIDs != null) //Find which modules the people take
+        {
+            for (String personID : peopleIDs) {
+                tempModuleIDs = (List<String>) (s.createQuery("from modules join modules.takenByStudent where modules.id =:id")).setParameter("id", personID).list();
+            }
+
+           return new Timetable(getReservations(tempModuleIDs));
+        }
+        else {
+
+
+            return new Timetable(getReservations(moduleIDs));
+        }
+    }
+    public Timetable createTimetable(List<Module> modules, List<Person> people)
+    {
+        ArrayList<String> moduleIds = new ArrayList<>();
+        ArrayList<String> peopleIds = new ArrayList<>();
+        for (Module m :modules)
+        {
+            moduleIds.add(m.getId());
+
+        }
+        for (Person p: people)
+        {
+            peopleIds.add(p.getID());
+
+        }
+        return createTimetable(moduleIds,peopleIds);
+    }
+
     public boolean generateTimetable()
     {
         List<Module> modules = controller.readAll("modules");
@@ -44,7 +92,6 @@ public class TimetableGenerator {
         {
             //moduleCapacity = SELECT FROM takes t count (distinct(t.studentID)) WHERE t.moduleID = :moduleID
             int moduleCapacity = s.createQuery("select S from students S join S.takes T where T.id = :id").setParameter("id",m.getId()).list().size();
-            controller.readAll("takes");
 
             //Repeat below for practicals and lectures
             int lectureLength = 2; //Read length from module requirements
@@ -55,7 +102,7 @@ public class TimetableGenerator {
             while (bookedRoom == null)
             {
                 bookedRoom = tryBookRoom(moduleCapacity,lectureLength);
-                setCurrentTime(30);
+                setCurrentTime(30); //This is min time between start of one class and end of another
 
             }
             roomBooker.reserveRoom(bookedRoom,m,LocalDateTime.of(currentDate, currentTime),LocalDateTime.of(currentDate, currentTime.plusHours(lectureLength)));
