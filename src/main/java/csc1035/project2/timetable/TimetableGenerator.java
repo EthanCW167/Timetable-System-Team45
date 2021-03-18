@@ -30,7 +30,7 @@ public class TimetableGenerator {
         s = HibernateUtil.getSessionFactory().openSession();
         s.beginTransaction();
         controller = new Controller();
-        roomBooker = new RoomBooking(controller.readAll("room"));
+        roomBooker = new RoomBooking(controller.readAll("rooms"));
         startDate = LocalDate.now();
         startOfDayTime = LocalTime.of(9,0);
         endOfDayTime = LocalTime.of(15,30);
