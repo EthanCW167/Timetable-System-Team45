@@ -72,4 +72,14 @@ public class Module {
     public void setWeeks(int weeks) {
         this.weeks = weeks;
     }
+
+    @Override
+    public String toString() {
+        return "Module{" +
+                "id='" + id + '\'' +
+                "name="+ name + '\''+
+                "credits"+ credits + '\''+
+                "weeks" + weeks + '\'' +
+                '}';
+    }
 }
