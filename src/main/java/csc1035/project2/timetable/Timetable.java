@@ -15,15 +15,16 @@ public class Timetable {
 
     @Override
     public String toString() {
-        String stringFormat = "Timetable /n {";
+        String newLine = System.getProperty("line.separator");
+        String stringFormat = "Timetable {";
         for (Reservations r:reservationList)
         {
-            stringFormat += r.toString() + "/n";
+            stringFormat += r.toString() + newLine;
 
         }
 
         return "Timetable{" +
-
+                newLine +
                 stringFormat +
                 '}';
     }
