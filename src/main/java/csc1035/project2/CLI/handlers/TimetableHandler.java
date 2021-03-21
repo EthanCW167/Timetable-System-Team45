@@ -24,7 +24,7 @@ public class TimetableHandler {
     }
     public void run(){
         System.out.println("Welcome to the timetabling system");
-        generator.generateTimetable();
+
 
         while (!exit){
             printMenu();
@@ -65,7 +65,13 @@ public class TimetableHandler {
 
     private static void timetableHandler(String type) {
         // Prints timetable for the school
-
+        switch (type)
+        {
+            case "sociallyDistant":
+                generator.generateTimetable(true);
+            default:
+                generator.generateTimetable(false);
+        }
         Timetable fullTimetable = generator.createTimetable((ArrayList<String>) null,null);
         System.out.println(fullTimetable.toString());
 
