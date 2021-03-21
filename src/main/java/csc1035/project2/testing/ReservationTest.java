@@ -1,4 +1,4 @@
-package csc1035.project2.booking.reservation;
+package csc1035.project2.testing;
 
 import csc1035.project2.HibernateUtil;
 import csc1035.project2.util.Controller;
