@@ -69,4 +69,15 @@ public class Reservations {
     public void setTo(LocalDateTime to) {
         this.to = to;
     }
+
+
+    @Override
+    public String toString() {
+        return "Reservations{" +
+                "roomNumber='" + roomNumber + '\'' +
+                ", moduleId='" + moduleId + '\'' +
+                ", from=" + from +
+                ", to=" + to +
+                '}';
+    }
 }
