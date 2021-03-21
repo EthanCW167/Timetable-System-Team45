@@ -34,7 +34,7 @@ public class TimetableGenerator {
         startDate = LocalDate.now();
         startOfDayTime = LocalTime.of(9,0);
         endOfDayTime = LocalTime.of(15,30);
-
+        currentTime = startOfDayTime;
 
     }
 
@@ -46,6 +46,11 @@ public class TimetableGenerator {
                 reservations.addAll((s.createQuery("from reservations where  reservations.moduleId = :id").setParameter("id", moduleID).list()));
                 //This gets all the reservations found for each module
             }
+        }
+        else
+        {
+            reservations.addAll(s.createQuery("from reservations ").list());
+
         }
         return reservations;
 
@@ -84,7 +89,7 @@ public class TimetableGenerator {
         return createTimetable(moduleIds,peopleIds);
     }
 
-    public boolean generateTimetable()
+    public boolean generateTimetable(boolean isSociallyDistant)
     {
         List<Module> modules = controller.readAll("modules");
 
@@ -101,7 +106,7 @@ public class TimetableGenerator {
             Room bookedRoom = null;
             while (bookedRoom == null)
             {
-                bookedRoom = tryBookRoom(moduleCapacity,lectureLength);
+                bookedRoom = tryBookRoom(moduleCapacity,lectureLength,isSociallyDistant);
                 setCurrentTime(30); //This is min time between start of one class and end of another
 
             }
@@ -121,7 +126,7 @@ public class TimetableGenerator {
         }
 
     }
-    private Room tryBookRoom(int minCapacity, int sessionLength)
+    private Room tryBookRoom(int minCapacity, int sessionLength,boolean isSociallyDistanced)
     {
         LocalDateTime attemptedTime = LocalDateTime.of(startDate,currentTime);
         List<Room> availableRooms = roomBooker.findAvailableRooms(attemptedTime,sessionLength,minCapacity);
