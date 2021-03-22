@@ -1,13 +1,10 @@
 package csc1035.project2.CLI.handlers;
 
-<<<<<<< src/main/java/csc1035/project2/CLI/handlers/TimetableHandler.java
 import csc1035.project2.timetable.TimetableGenerator;
 import csc1035.project2.timetable.*;
 import csc1035.project2.util.Helpers;
 import csc1035.project2.timetable.Timetabling;
-=======
 import csc1035.project2.util.Controller;
->>>>>>> src/main/java/csc1035/project2/CLI/handlers/TimetableHandler.java
 import csc1035.project2.util.Helpers;
 import csc1035.project2.timetable.Timetabling;
 import csc1035.project2.timetable.Module;
@@ -30,12 +27,9 @@ import java.util.Scanner;
 public class TimetableHandler {
 
     private static boolean exit;
-<<<<<<< src/main/java/csc1035/project2/CLI/handlers/TimetableHandler.java
     private static TimetableGenerator generator;
-=======
     private static IController c;
     private static Timetabling timetable;
->>>>>>> src/main/java/csc1035/project2/CLI/handlers/TimetableHandler.java
 
     public TimetableHandler(){
         c = new Controller();
