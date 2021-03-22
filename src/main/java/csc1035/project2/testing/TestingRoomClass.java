@@ -1,6 +1,7 @@
-package csc1035.project2.booking;
+package csc1035.project2.testing;
 
 import csc1035.project2.HibernateUtil;
+import csc1035.project2.booking.Room;
 import org.hibernate.Session;
 
 import java.util.List;
