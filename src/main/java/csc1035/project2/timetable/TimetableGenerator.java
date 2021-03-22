@@ -31,7 +31,7 @@ public class TimetableGenerator {
         s.beginTransaction();
         controller = new Controller();
         roomBooker = new RoomBooking(controller.readAll("rooms"));
-        startDate = LocalDate.now();
+        startDate = LocalDate.now().plusDays(1);
         startOfDayTime = LocalTime.of(9,0);
         endOfDayTime = LocalTime.of(15,30);
         currentTime = startOfDayTime;
@@ -43,7 +43,7 @@ public class TimetableGenerator {
         List<Reservations> reservations = new ArrayList<>();
         if (moduleIds != null) {
             for (String moduleID : moduleIds) {
-                reservations.addAll((s.createQuery("from reservations where  reservations.moduleId = :id").setParameter("id", moduleID).list()));
+                reservations.addAll((List<Reservations>)(s.createQuery("select r from reservations r where  r.moduleId = :id").setParameter("id", moduleID).list()));
                 //This gets all the reservations found for each module
             }
         }
@@ -61,7 +61,10 @@ public class TimetableGenerator {
         if (peopleIDs != null) //Find which modules the people take
         {
             for (String personID : peopleIDs) {
-                tempModuleIDs = (List<String>) (s.createQuery("from modules join modules.takenByStudent where modules.id =:id")).setParameter("id", personID).list();
+                tempModuleIDs.addAll((List<String>) (s.createQuery("select m.id from modules m join m.takenByStudent S where S.id =:id")).setParameter("id", personID).list());
+
+                //s.createQuery("select m.id from modules m join m.takenByStudent where m.id = :id").setParameter("id",personID);
+                //Get the ids of modules that are found are taken by student where id = personID
             }
 
            return new Timetable(getReservations(tempModuleIDs));
@@ -102,26 +105,26 @@ public class TimetableGenerator {
             int lectureLength = 2; //Read length from module requirements
 
             currentDate = startDate;
+            Integer lecturesPerWeek = (Integer) s.createQuery("select r.lecturesPerWeek from moduleRequirements r where r.id = :id").setParameter("id",m.getId()).list().get(0);
+            for (Integer i = 0; i < lecturesPerWeek; i++) {
+                Room bookedRoom = null;
+                while (bookedRoom == null) {
+                    bookedRoom = tryBookRoom(moduleCapacity, lectureLength, isSociallyDistant);
+                    setCurrentTime(150); //This is min time between start of one class and end of another
 
-            Room bookedRoom = null;
-            while (bookedRoom == null)
-            {
-                bookedRoom = tryBookRoom(moduleCapacity,lectureLength,isSociallyDistant);
-                setCurrentTime(30); //This is min time between start of one class and end of another
-
+                }
+                roomBooker.reserveRoom(bookedRoom, m, LocalDateTime.of(currentDate, currentTime), LocalDateTime.of(currentDate, currentTime.plusHours(lectureLength)));
             }
-            roomBooker.reserveRoom(bookedRoom,m,LocalDateTime.of(currentDate, currentTime),LocalDateTime.of(currentDate, currentTime.plusHours(lectureLength)));
-
         }
         return true;
     }
     private void setCurrentTime(int minsAdded)
     {
-        currentTime.plusMinutes(minsAdded);
+        currentTime = currentTime.plusMinutes(minsAdded);
         if (currentTime.isAfter(endOfDayTime))
         {
             currentTime = startOfDayTime;
-            currentDate.plusDays(1);
+            currentDate = currentDate.plusDays(1);
             //Needs to be stopped if it goes past 1 week
         }
 
