@@ -133,7 +133,9 @@ public class TimetableGenerator {
             int moduleCapacity = s.createQuery("select S from students S join S.takes T where T.id = :id").setParameter("id",m.getId()).list().size();
 
             //Repeat below for practicals and lectures
-            int lectureLength = 2; //Read length from module requirements
+            //Read length from module requirements and * 60 to turn into minutes as set out by the IBooking interface
+            int lectureLength = s.createQuery("select r.lectureLength from moduleRequirements r where r.id = :id")
+                    .setParameter("id", m.getId()).list().size() * 60;
 
             currentDate = startDate;
             Integer lecturesPerWeek = (Integer) s.createQuery("select r.lecturesPerWeek from moduleRequirements r where r.id = :id").setParameter("id",m.getId()).list().get(0);
@@ -144,7 +146,7 @@ public class TimetableGenerator {
                     setCurrentTime(150); //This is min time between start of one class and end of another
 
                 }
-                roomBooker.reserveRoom(bookedRoom, m, LocalDateTime.of(currentDate, currentTime), LocalDateTime.of(currentDate, currentTime.plusHours(lectureLength)));
+                roomBooker.reserveRoom(bookedRoom, m, LocalDateTime.of(currentDate, currentTime), LocalDateTime.of(currentDate, currentTime.plusMinutes(lectureLength)));
             }
         }
         return true;
