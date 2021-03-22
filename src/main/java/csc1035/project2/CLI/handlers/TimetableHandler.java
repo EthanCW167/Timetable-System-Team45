@@ -88,7 +88,7 @@ public class TimetableHandler {
         System.out.println(teacherModule(module.getId()));
 
         System.out.println("Module requirements: ");
-        System.out.println(moduleRequirements());
+        System.out.println(specificModuleRequirements(module.getId()));
 
 
 
