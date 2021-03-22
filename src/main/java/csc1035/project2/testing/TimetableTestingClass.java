@@ -1,4 +1,4 @@
-package csc1035.project2.timetable;
+package csc1035.project2.testing;
 
 import static csc1035.project2.timetable.Timetabling.*;
 

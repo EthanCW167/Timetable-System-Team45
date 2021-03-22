@@ -1,6 +1,7 @@
-package csc1035.project2.timetable.Person;
+package csc1035.project2.testing;
 
 import csc1035.project2.HibernateUtil;
+import csc1035.project2.timetable.Person.Student;
 import org.hibernate.Session;
 
 import java.util.List;

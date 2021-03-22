@@ -1,6 +1,8 @@
-package csc1035.project2.booking;
+package csc1035.project2.testing;
 
 import csc1035.project2.HibernateUtil;
+import csc1035.project2.booking.Room;
+import csc1035.project2.booking.RoomBooking;
 import csc1035.project2.booking.reservation.Reservations;
 import csc1035.project2.timetable.Module;
 import org.hibernate.Session;
