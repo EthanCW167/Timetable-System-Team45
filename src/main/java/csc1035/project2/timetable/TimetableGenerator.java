@@ -12,8 +12,15 @@ import java.time.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A class for generating a timetable for a school
+ *
+ * @author Rowan Lowe
+ */
 
 public class TimetableGenerator {
+
+
 
     RoomBooking roomBooker;
     IController controller;
@@ -38,6 +45,11 @@ public class TimetableGenerator {
 
     }
 
+    /**
+     * Gets the reservations that are applicable to the module IDs inputted
+     * @param moduleIds these are the modules to search for, if empty search for all
+     * @return the list of all reservations for the given modules, or if empty all reservations
+     */
     public List<Reservations> getReservations(List<String> moduleIds)
     {
         List<Reservations> reservations = new ArrayList<>();
@@ -55,6 +67,13 @@ public class TimetableGenerator {
         return reservations;
 
     }
+
+    /**
+     * Creates a timetable when gives the optional filters of modules and people IDs
+     * @param moduleIDs the optional filter for module IDs to create the timetable for, if empty then use all modules
+     * @param peopleIDs the optional filter for people IDs to create the timetable for, if empty then ignore
+     * @return
+     */
     public Timetable createTimetable(ArrayList<String> moduleIDs, ArrayList<String> peopleIDs)
     {
         List<String> tempModuleIDs = new ArrayList();
@@ -75,6 +94,13 @@ public class TimetableGenerator {
             return new Timetable(getReservations(moduleIDs));
         }
     }
+
+    /**
+     * Creates a timetable when gives the optional filters of modules and people
+     * @param modules the optional filter for module to create the timetable for, if empty then use all modules
+     * @param people  the optional filter for people to create the timetable for, if empty then ignore
+     * @return
+     */
     public Timetable createTimetable(List<Module> modules, List<Person> people)
     {
         ArrayList<String> moduleIds = new ArrayList<>();
@@ -92,6 +118,11 @@ public class TimetableGenerator {
         return createTimetable(moduleIds,peopleIds);
     }
 
+    /**
+     * Generates a full school timetable given the modules and their requirements
+     * @param isSociallyDistant if the timetable is for socially distant capacities
+     * @return
+     */
     public boolean generateTimetable(boolean isSociallyDistant)
     {
         List<Module> modules = controller.readAll("modules");
@@ -118,6 +149,11 @@ public class TimetableGenerator {
         }
         return true;
     }
+
+    /**
+     * Changes the current time attempting to be reserved
+     * @param minsAdded is the time added to the currentTime
+     */
     private void setCurrentTime(int minsAdded)
     {
         currentTime = currentTime.plusMinutes(minsAdded);
@@ -129,6 +165,14 @@ public class TimetableGenerator {
         }
 
     }
+
+    /**
+     * Finds a room that can be booked at the current time given the capacity and length
+     * @param minCapacity the smallest size a room can be
+     * @param sessionLength the length of the lecture/practical
+     * @param isSociallyDistanced whether the capacity is restricted due to social distancing
+     * @return a room that is available to be booked
+     */
     private Room tryBookRoom(int minCapacity, int sessionLength,boolean isSociallyDistanced)
     {
         LocalDateTime attemptedTime = LocalDateTime.of(startDate,currentTime);

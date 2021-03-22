@@ -169,17 +169,11 @@ public class RoomBooking implements IBooking{
                         //If timeStamp is between reservation start and finish, inverted because is not inclusive if equal
 
 
-                        boolean isOverlap = !((timeStamp.isAfter(reservation.getTo())) || (endTime.isBefore(reservation.getFrom())));
-                        if (isOverlap)
-                        {
-                            validRoom = false;
-                            break;
+                        if (reservation.getTo().isBefore(timeStamp) || reservation.getFrom().isAfter(endTime)) {
+                            if (!applicableRooms.contains(room)) {
+                                applicableRooms.add(room);
+                            }
                         }
-                    }
-                    if (validRoom)
-                    {
-                        applicableRooms.add(room);
-
                     }
                 }else{
                     applicableRooms.add(room);
