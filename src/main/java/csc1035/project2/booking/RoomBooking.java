@@ -150,7 +150,7 @@ public class RoomBooking implements IBooking{
     @Override
     public ArrayList<Room> findAvailableRooms(LocalDateTime timeStamp, int forLength, int forCapacity) {
         ArrayList<Room> applicableRooms = new ArrayList<>();
-        LocalDateTime endTime = timeStamp.plusMinutes(forLength);
+        LocalDateTime endTime = timeStamp.plusHours(forLength);
 
         // Loops through each room in the roomList
         for (Room room:roomList) {
@@ -159,11 +159,16 @@ public class RoomBooking implements IBooking{
                 // Loops through the reservations for the room
 
                 List<Reservations> reservationsList = createRoomTimetable(room);
-
+                boolean validRoom = true;
                 if (reservationsList.size() > 0) {
+                    validRoom = true;
                     for (Reservations reservation : reservationsList) {
+
                         // Checks that the "to" of the reservation is before the start time of the "timeStamp" OR
                         // that the reservation "from" time is after the "endTime"
+                        //If timeStamp is between reservation start and finish, inverted because is not inclusive if equal
+
+
                         if (reservation.getTo().isBefore(timeStamp) || reservation.getFrom().isAfter(endTime)) {
                             if (!applicableRooms.contains(room)) {
                                 applicableRooms.add(room);

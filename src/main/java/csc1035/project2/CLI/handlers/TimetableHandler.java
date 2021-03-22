@@ -1,6 +1,13 @@
 package csc1035.project2.CLI.handlers;
 
+<<<<<<< src/main/java/csc1035/project2/CLI/handlers/TimetableHandler.java
+import csc1035.project2.timetable.TimetableGenerator;
+import csc1035.project2.timetable.*;
+import csc1035.project2.util.Helpers;
+import csc1035.project2.timetable.Timetabling;
+=======
 import csc1035.project2.util.Controller;
+>>>>>>> src/main/java/csc1035/project2/CLI/handlers/TimetableHandler.java
 import csc1035.project2.util.Helpers;
 import csc1035.project2.timetable.Timetabling;
 import csc1035.project2.timetable.Module;
@@ -11,6 +18,9 @@ import java.util.Scanner;
 import static csc1035.project2.timetable.Timetabling.*;
 
 
+import java.util.ArrayList;
+import java.util.Scanner;
+
 /**
  * Class used for handling timetabling actions
  * with CLI
@@ -20,18 +30,24 @@ import static csc1035.project2.timetable.Timetabling.*;
 public class TimetableHandler {
 
     private static boolean exit;
+<<<<<<< src/main/java/csc1035/project2/CLI/handlers/TimetableHandler.java
+    private static TimetableGenerator generator;
+=======
     private static IController c;
     private static Timetabling timetable;
+>>>>>>> src/main/java/csc1035/project2/CLI/handlers/TimetableHandler.java
 
     public TimetableHandler(){
         c = new Controller();
 
 
         exit = false;
+        generator = new TimetableGenerator();
     }
 
     public void run(){
         System.out.println("Welcome to the timetabling system");
+
 
         while (!exit){
             printMenu();
@@ -90,10 +106,28 @@ public class TimetableHandler {
 
     private static void timetableHandler(String type) {
         // Prints timetable for the school
+        switch (type)
+        {
+            case "sociallyDistant":
+                generator.generateTimetable(true);
+            default:
+                generator.generateTimetable(false);
+        }
+        Timetable fullTimetable = generator.createTimetable((ArrayList<String>) null,null);
+        System.out.println(fullTimetable.toString());
+
     }
 
     private static void personTimetableHandler() {
         // Prints persons timetable
+
+        System.out.println("Please enter your student/teacher ID");
+        Scanner sc = new Scanner(System.in);
+        String Id = sc.nextLine();
+        ArrayList<String> idList = new ArrayList<>();
+        idList.add(Id);
+        Timetable studentTimetable = generator.createTimetable(null,idList);
+        System.out.println(studentTimetable.toString());
     }
 
 
@@ -114,3 +148,4 @@ public class TimetableHandler {
         System.out.println("5 --- Return");
     }
 }
+
