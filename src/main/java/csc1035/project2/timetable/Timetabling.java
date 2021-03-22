@@ -12,7 +12,7 @@ import org.hibernate.Session;
  * a list of students that take a module, a list of teachers that take a particular module and a list of module
  * requirements.
  *
- * @Ethan Wilson
+ * @author Ethan Wilson
  */
 
 public class Timetabling {

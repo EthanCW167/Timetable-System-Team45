@@ -39,6 +39,9 @@ public class TimetableHandler {
         generator = new TimetableGenerator();
     }
 
+    /**
+     * Runs the Timetable section of the program
+     */
     public void run(){
         System.out.println("Welcome to the timetabling system");
 
@@ -76,6 +79,9 @@ public class TimetableHandler {
         }
     }
 
+    /**
+     * Provides the functionality to get information about a module
+     */
     private static void infoHandler() {
         // Prints module info (students, staff, module requirements)
         System.out.println("Input module number please");
@@ -98,6 +104,10 @@ public class TimetableHandler {
 
     }
 
+    /**
+     * Provides the functionality of printing a timetable for the school
+     * @param type Whether it should be socially distanced or not
+     */
     private static void timetableHandler(String type) {
         // Prints timetable for the school
         switch (type)
@@ -112,6 +122,9 @@ public class TimetableHandler {
 
     }
 
+    /**
+     * Prints students/teachers timetable
+     */
     private static void personTimetableHandler() {
         // Prints persons timetable
 
@@ -133,6 +146,9 @@ public class TimetableHandler {
         exit = true;
     }
 
+    /**
+     * Prints the timetable menu
+     */
     private void printMenu() {
         System.out.println("Choose an option:");
         System.out.println("1 --- Info about a module");

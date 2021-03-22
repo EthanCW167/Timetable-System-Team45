@@ -7,10 +7,10 @@ import org.hibernate.Session;
 import java.util.List;
 
 /**
- * This is a class to test that the Room class relates properly to the students" table in the database,
+ * This is a class to test that the Student class relates properly to the students" table in the database,
  * code has been temporarily reused from TestingRoomClass as it fulfils the same purpose.
  *
- * @author Dillon Reed
+ * @author Dillon Reed, Ethan Wilson
  */
 public class TestingPersonClass {
 

@@ -2,6 +2,11 @@ package csc1035.project2.testing;
 
 import static csc1035.project2.timetable.Timetabling.*;
 
+/**
+ * A class to test that the various Timetable classes work correctly
+ *
+ * @author Ethan Wilson
+ */
 public class TimetableTestingClass {
 
     public static void main(String[] args) {

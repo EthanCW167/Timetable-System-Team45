@@ -8,6 +8,11 @@ import csc1035.project2.HibernateUtil;
 
 import java.util.List;
 
+/**
+ * Test class for Module
+ *
+ * @author Ethan Wilson
+ */
 public class TestingModuleClass {
 
     public static void main(String[] args) {

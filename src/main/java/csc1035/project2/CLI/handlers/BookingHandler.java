@@ -32,6 +32,10 @@ public class BookingHandler {
         booking = new RoomBooking(c.readAll( "rooms"));
         exit = false;
     }
+
+    /**
+     * Runs the booking section of the program
+     */
     public void run(){
         System.out.println("Welcome to the booking system");
         
@@ -222,6 +226,9 @@ public class BookingHandler {
         exit = true;
     }
 
+    /**
+     * Prints the booking menu
+     */
     private void printMenu() {
         System.out.println("Choose an option:");
         System.out.println("1 --- Print the list of rooms");

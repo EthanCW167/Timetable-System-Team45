@@ -22,6 +22,9 @@ public class CLI {
 
     }
 
+    /**
+     * Runs the main CLI program that will then split off into one of the 2 handlers; booking or timetable
+     */
     public void run(){
         System.out.println("CLI for ");
 
@@ -63,6 +66,9 @@ public class CLI {
         exit = true;
     }
 
+    /**
+     * Prints the main menu
+     */
     public static void printMenu(){
         System.out.println("Choose an option:");
         System.out.println("1 --- Booking system");

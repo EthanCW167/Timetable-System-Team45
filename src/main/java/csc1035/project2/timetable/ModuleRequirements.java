@@ -9,7 +9,7 @@ import javax.persistence.Id;
  * This is a class that represents the Module Requirements database table, it has methods for
  * the setting and returning of fields relating to the requirements of the module
  *
- * @author
+ * @author Ethan Wilson
  */
 @Entity(name = "moduleRequirements")
 public class ModuleRequirements {
