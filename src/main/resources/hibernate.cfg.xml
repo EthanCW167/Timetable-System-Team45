@@ -6,7 +6,7 @@
 <hibernate-configuration>
     <session-factory>
         <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
-        <property name="hibernate.connection.url">jdbc:mysql://cs-db.ncl.ac.uk/DATABASE_NAME</property>
+        <property name="hibernate.connection.url">jdbc:mysql://localhost:29432/t1035t45</property>
 <!--        <property name="hibernate.connection.url">jdbc:mysql://localhost:51417/t1035t45</property>-->
         <!--        <property name="hibernate.connection.url">jdbc:mysql://localhost:29432/t1035t45</property>-->
 

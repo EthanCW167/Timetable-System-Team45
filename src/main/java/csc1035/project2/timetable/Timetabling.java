@@ -6,15 +6,6 @@ import java.util.List;
 import csc1035.project2.HibernateUtil;
 import org.hibernate.Session;
 
-/**
- *
- * This class is responsible for managing aspects of the timetabling system, it has methods for the returning of
- * a list of students that take a module, a list of teachers that take a particular module and a list of module
- * requirements.
- *
- * @author Ethan Wilson
- */
-
 public class Timetabling {
 
     /**
@@ -83,17 +74,17 @@ public class Timetabling {
      * @return List containing the module requirements for the particular module
      */
 
-   public static List specificModuleRequirements(String moduleId){
+    public static List specificModuleRequirements(String moduleId){
 
-       Session session = HibernateUtil.getSessionFactory().openSession(); // Establish connection with database
-       session.beginTransaction();
+        Session session = HibernateUtil.getSessionFactory().openSession(); // Establish connection with database
+        session.beginTransaction();
 
-       List moduleRequirements = session.createQuery("from moduleRequirements where id = :id").setParameter("id",moduleId).list();
-       // Query database for specific module requirements
+        List moduleRequirements = session.createQuery("from moduleRequirements where id = :id").setParameter("id",moduleId).list();
+        // Query database for specific module requirements
 
-       session.getTransaction().commit();
-       session.close(); // Close connection with database
+        session.getTransaction().commit();
+        session.close(); // Close connection with database
 
-       return moduleRequirements; // return array of module requirements for particular module
-   }
+        return moduleRequirements; // return array of module requirements for particular module
+    }
 }
